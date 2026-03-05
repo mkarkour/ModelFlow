@@ -1,0 +1,95 @@
+version: 2
+
+models:
+  - name: dim_customer_scd2
+    description: >
+      Star Schema: Customer Dimension with Slowly Changing Dimension Type 2.
+      Each row represents a unique version of customer attributes.
+      `is_current = true` gives the latest state; historical rows show what
+      attributes looked like during the `valid_from` → `valid_to` window.
+    columns:
+      - name: customer_sk
+        description: "Surrogate key = MD5(cust_id, valid_from). Primary key."
+        tests: [not_null, unique]
+      - name: cust_id
+        description: "Natural/business key — NOT unique (multiple versions can exist)."
+        tests: [not_null]
+      - name: valid_from
+        tests: [not_null]
+      - name: valid_to
+        tests: [not_null]
+      - name: is_current
+        tests: [not_null]
+
+  - name: dim_product_scd2
+    description: >
+      Star Schema: Product Dimension with SCD2. Single version per product
+      in this workshop; structure accommodates future incremental price changes.
+    columns:
+      - name: product_sk
+        tests: [not_null, unique]
+      - name: prod_id
+        tests: [not_null, unique]  # unique here because only 1 version per product
+      - name: price
+        tests: [not_null]
+      - name: category
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Electronics', 'Apparel', 'Home', 'Toys', 'Sports']
+
+  - name: dim_date
+    description: >
+      Star Schema: Date Dimension. Covers 2023-01-01 to 2026-12-31.
+      Provides calendar attributes for time-intelligence BI queries.
+    columns:
+      - name: date_key
+        description: "Integer date key in YYYYMMDD format. Primary key."
+        tests: [not_null, unique]
+      - name: full_date
+        tests: [not_null, unique]
+      - name: year
+        tests: [not_null]
+      - name: is_weekend
+        tests: [not_null]
+
+  - name: fact_sales
+    description: >
+      Star Schema: Sales Fact Table. Grain = one row per order.
+      References dimensions via surrogate keys (customer_sk, product_sk, date_key).
+      Contains additive measures (quantity, gross_revenue, total_cost, gross_margin)
+      and non-additive metrics (gross_margin_pct).
+    columns:
+      - name: order_id
+        description: "Degenerate dimension — natural order key retained on fact."
+        tests: [not_null, unique]
+      - name: customer_sk
+        description: "FK → dim_customer_scd2.customer_sk (surrogate key)."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customer_scd2')
+              field: customer_sk
+      - name: product_sk
+        description: "FK → dim_product_scd2.product_sk."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_product_scd2')
+              field: product_sk
+      - name: order_date_key
+        description: "FK → dim_date.date_key."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+      - name: gross_revenue
+        tests: [not_null]
+      - name: gross_margin
+        tests: [not_null]
+      - name: order_status
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Shipped', 'Cancelled', 'Pending', 'Returned']

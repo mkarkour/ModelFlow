@@ -1,0 +1,29 @@
+# 📝 EXERCISE: Documentation & Testing (Inmon 3NF)
+# 
+# TASK: 
+# For every model you create in your exercise folder, add an entry below.
+# 
+# 💡 DBT PACKAGE TIP: 
+# To use generic tests provided by dbt packages, install them in `packages.yml` 
+# and run `dbt deps`. You can then use them here like:
+# tests: 
+#   - dbt_utils.expression_is_true:
+#       expression: "column_a > column_b"
+#
+# 🛠️ CODEGEN TIP:
+# You can use the `dbt-codegen` package to automatically generate 
+# the YAML boilerplate for your models! Run:
+# dbt run-operation generate_model_yaml --args '{"model_names": ["your_model_name"]}'
+#
+# 🌟 BONUS POINT:
+# Add referential integrity tests (relationships) between your Fact and Dimensions!
+
+version: 2
+
+models: []
+  # - name: dim_customer_3nf
+  #   columns:
+  #     - name: cust_id
+  #       tests:
+  #         - unique
+  #         - not_null

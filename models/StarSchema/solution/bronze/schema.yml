@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: bronze_ss_stg_customers
+    description: >
+      Star Schema bronze staging for customers. Prepares data for SCD2
+      dimension loading in the silver layer.
+    columns:
+      - name: cust_id
+        tests: [not_null, unique]
+      - name: cust_email
+        tests: [not_null, unique]
+
+  - name: bronze_ss_stg_products
+    description: "Star Schema bronze staging for products."
+    columns:
+      - name: prod_id
+        tests: [not_null, unique]
+      - name: price
+        tests: [not_null]
+
+  - name: bronze_ss_stg_orders
+    description: >
+      Star Schema bronze staging for orders. Denormalizes unit price/cost
+      from products at order time for the fact table grain.
+    columns:
+      - name: order_id
+        tests: [not_null, unique]
+      - name: cust_id
+        tests: [not_null]
+      - name: prod_id
+        tests: [not_null]
+      - name: gross_revenue
+        tests: [not_null]

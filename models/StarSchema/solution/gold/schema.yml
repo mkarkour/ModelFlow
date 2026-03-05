@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: mart_sales_dashboard
+    description: >
+      Star Schema Gold: Fully denormalized sales mart for BI dashboards.
+      One row per order with all customer, product, and date attributes
+      pre-joined. Zero joins required at query time — optimized for tools
+      like Tableau, Power BI, Metabase, and Looker.
+    columns:
+      - name: order_id
+        tests: [not_null, unique]
+      - name: cust_id
+        tests: [not_null]
+      - name: prod_id
+        tests: [not_null]
+      - name: order_date
+        tests: [not_null]
+      - name: gross_revenue
+        tests: [not_null]
+      - name: gross_margin
+        tests: [not_null]
+
+  - name: mart_product_performance
+    description: >
+      Star Schema Gold: Monthly product performance mart with revenue, margin,
+      and channel mix metrics. Grain = one row per (product, year-month).
+    columns:
+      - name: prod_id
+        tests: [not_null]
+      - name: year_month
+        tests: [not_null]
+      - name: total_gross_revenue
+        tests: [not_null]
+      - name: gross_margin_pct
+        tests: [not_null]

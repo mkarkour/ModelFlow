@@ -1,0 +1,27 @@
+[project]
+name = "modelflow"
+version = "0.1.0"
+description = "Multi-Architecture Data Modeling Workshop: Data Vault, Inmon 3NF, Star Schema with dbt + DuckDB"
+readme = "README.md"
+requires-python = ">=3.11"
+
+dependencies = [
+    "dbt-duckdb>=1.9.0",
+    "duckdb>=1.1.0",
+    "pandas>=2.0.0",
+    "numpy>=1.26.0",
+    "faker>=24.0.0",
+    "jupyter>=1.0.0",
+    "ipykernel>=6.0.0",
+    "notebook>=7.0.0",
+    "graphviz>=0.21",
+    "duckdb-engine>=0.17.0",
+    "sqlalchemy>=2.0.47",
+    "eralchemy>=1.6.0",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=8.0.0",
+]
+package = false

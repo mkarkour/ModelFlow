@@ -1,0 +1,73 @@
+version: 2
+
+models:
+  - name: dim_customer_3nf
+    description: >
+      Inmon 3NF: Normalized Customer entity in the Corporate Data Warehouse.
+      Uses natural PK (cust_id). No surrogate keys — entity integrity enforced
+      via database-level natural key uniqueness constraints (dbt tests).
+      **3NF Principle**: Each non-key attribute depends on the whole key (cust_id)
+      and nothing but the key. No transitive dependencies.
+    columns:
+      - name: cust_id
+        description: "Natural primary key. Enforced as unique + not null."
+        tests: [not_null, unique]
+      - name: cust_email
+        tests: [not_null, unique]
+      - name: cust_segment
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Consumer', 'Corporate', 'Home Office']
+      - name: created_at
+        tests: [not_null]
+
+  - name: dim_product_3nf
+    description: >
+      Inmon 3NF: Normalized Product entity. PK = prod_id.
+      No category descriptions stored here to avoid redundancy (3NF compliance).
+    columns:
+      - name: prod_id
+        tests: [not_null, unique]
+      - name: sku
+        tests: [not_null, unique]
+      - name: price
+        tests: [not_null]
+      - name: category
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Electronics', 'Apparel', 'Home', 'Toys', 'Sports']
+
+  - name: fact_order_3nf
+    description: >
+      Inmon 3NF: Normalized Order fact table. References parent entities via
+      natural keys (not surrogates). The `relationships` tests below enforce
+      **hard referential integrity** — a hallmark of Inmon CDW architecture.
+      Contrast with Data Vault, where referential integrity is soft/hash-based.
+    columns:
+      - name: order_id
+        tests: [not_null, unique]
+      - name: cust_id
+        description: "Foreign key → dim_customer_3nf.cust_id (HARD FK constraint via test)."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customer_3nf')
+              field: cust_id
+      - name: prod_id
+        description: "Foreign key → dim_product_3nf.prod_id (HARD FK constraint via test)."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_product_3nf')
+              field: prod_id
+      - name: quantity
+        tests: [not_null]
+      - name: gross_revenue
+        tests: [not_null]
+      - name: order_status
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Shipped', 'Cancelled', 'Pending', 'Returned']

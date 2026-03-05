@@ -1,0 +1,17 @@
+# ModelFlow DuckDB database
+*.duckdb
+*.duckdb.wal
+
+# dbt artifacts
+target/
+dbt_packages/
+logs/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# uv
+.python-version

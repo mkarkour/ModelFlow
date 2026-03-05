@@ -1,0 +1,28 @@
+# 📝 EXERCISE: Documentation & Testing (Star Schema)
+# 
+# TASK: 
+# For every model you create in your exercise folder, add an entry below.
+# 
+# 💡 DBT PACKAGE TIP: 
+# Packages extend your YAML capabilities! 
+# For example, use `dbt_utils.accepted_range` to validate numeric values.
+#
+# 🛠️ CODEGEN TIP:
+# You can use the `dbt-codegen` package to automatically generate 
+# the YAML boilerplate for your models! Run:
+# dbt run-operation generate_model_yaml --args '{"model_names": ["your_model_name"]}'
+#
+# 🌟 BONUS POINT:
+# Add tests for your Surrogate Keys (SKs) and ensure they are always present!
+
+version: 2
+
+models: []
+  # - name: fact_sales
+  #   columns:
+  #     - name: customer_sk
+  #       tests:
+  #         - not_null
+  #         - relationships:
+  #             to: ref('dim_customer_scd2')
+  #             field: customer_sk

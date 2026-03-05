@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: bronze_dv_stg_customers
+    description: >
+      Data Vault bronze staging for customers. Computes `hk_customer` (MD5 of cust_id)
+      and `hash_diff` across all descriptive attributes for satellite change detection.
+    columns:
+      - name: hk_customer
+        description: "MD5 hash key derived from cust_id (business key)."
+        tests: [not_null, unique]
+      - name: cust_id
+        tests: [not_null, unique]
+      - name: hash_diff
+        tests: [not_null]
+      - name: load_date
+        tests: [not_null]
+
+  - name: bronze_dv_stg_products
+    description: >
+      Data Vault bronze staging for products. Computes `hk_product` (MD5 of prod_id).
+    columns:
+      - name: hk_product
+        tests: [not_null, unique]
+      - name: prod_id
+        tests: [not_null, unique]
+      - name: hash_diff
+        tests: [not_null]
+
+  - name: bronze_dv_stg_orders
+    description: >
+      Data Vault bronze staging for orders. Generates four hash keys:
+      hk_order, hk_customer, hk_product, and hk_order_link (composite).
+    columns:
+      - name: hk_order
+        tests: [not_null, unique]
+      - name: hk_customer
+        tests: [not_null]
+      - name: hk_product
+        tests: [not_null]
+      - name: hk_order_link
+        tests: [not_null, unique]
+      - name: order_id
+        tests: [not_null, unique]

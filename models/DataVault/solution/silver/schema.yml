@@ -1,0 +1,104 @@
+version: 2
+
+models:
+  # ── HUBS ────────────────────────────────────────────────────────────────────
+  - name: hub_customer
+    description: >
+      Data Vault Hub: Customer. Stores one row per unique customer business key (cust_id).
+      The Hub is the anchor of the Customer entity in the Raw Vault.
+      Hash keys are computed via MD5 to allow source-agnostic integration.
+    columns:
+      - name: hk_customer
+        description: "MD5 hash key of cust_id. Primary key of the Hub."
+        tests: [not_null, unique]
+      - name: cust_id
+        description: "Customer business key (natural key from source)."
+        tests: [not_null, unique]
+      - name: load_date
+        tests: [not_null]
+      - name: record_source
+        tests: [not_null]
+
+  - name: hub_product
+    description: "Data Vault Hub: Product. One row per prod_id business key."
+    columns:
+      - name: hk_product
+        tests: [not_null, unique]
+      - name: prod_id
+        tests: [not_null, unique]
+
+  # ── LINKS ────────────────────────────────────────────────────────────────────
+  - name: link_order
+    description: >
+      Data Vault Link: Order. Captures the transactional relationship between
+      Customer, Product, and Order. Contains only hash keys — no descriptive
+      attributes (per Data Vault methodology). Attributes go into Satellites.
+    columns:
+      - name: hk_order_link
+        description: "Composite MD5 of order_id + cust_id + prod_id."
+        tests: [not_null, unique]
+      - name: hk_order
+        tests: [not_null]
+      - name: hk_customer
+        description: "Foreign key to hub_customer."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('hub_customer')
+              field: hk_customer
+      - name: hk_product
+        description: "Foreign key to hub_product."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('hub_product')
+              field: hk_product
+
+  # ── SATELLITES ───────────────────────────────────────────────────────────────
+  - name: sat_customer_details
+    description: >
+      Data Vault Satellite: Customer Details. Stores all descriptive attributes
+      tracking history via hash_diff. Each unique (hk_customer, hash_diff) pair
+      represents a distinct version of the customer's attribute state.
+    columns:
+      - name: hk_customer
+        description: "Foreign key to hub_customer."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('hub_customer')
+              field: hk_customer
+      - name: hash_diff
+        tests: [not_null]
+      - name: cust_email
+        tests: [not_null]
+
+  - name: sat_product_details
+    description: "Data Vault Satellite: Product Details."
+    columns:
+      - name: hk_product
+        tests:
+          - not_null
+          - relationships:
+              to: ref('hub_product')
+              field: hk_product
+      - name: hash_diff
+        tests: [not_null]
+
+  - name: sat_order_details
+    description: "Data Vault Satellite: Order Details."
+    columns:
+      - name: hk_order
+        description: "Foreign key to link_order.hk_order."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('link_order')
+              field: hk_order
+      - name: hash_diff
+        tests: [not_null]
+      - name: order_status
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Shipped', 'Cancelled', 'Pending', 'Returned']

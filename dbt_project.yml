@@ -1,0 +1,118 @@
+name: modelflow
+version: "1.0.0"
+config-version: 2
+
+profile: modelflow
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+analysis-paths: ["analyses"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+# ──────────────────────────────────────────────
+# Model configurations per architecture & layer
+# ──────────────────────────────────────────────
+models:
+  modelflow:
+
+    # ── DATA VAULT ──────────────────────────────
+    DataVault:
+      exercise:
+        +enabled: "{{ env_var('DBT_MODE', 'exercise') == 'exercise' }}"
+        +materialized: table
+        +schema: dv_bronze 
+      solution:
+        +enabled: "{{ env_var('DBT_MODE', 'exercise') == 'solution' }}"
+        bronze:
+          +materialized: view
+          +schema: dv_bronze
+          +tags: ["data_vault", "bronze"]
+        silver:
+          +materialized: table
+          +schema: dv_silver
+          +tags: ["data_vault", "silver"]
+        gold:
+          +materialized: table
+          +schema: dv_gold
+          +tags: ["data_vault", "gold"]
+
+    # ── INMON 3NF ───────────────────────────────
+    Inmon3NF:
+      exercise:
+        +enabled: "{{ env_var('DBT_MODE', 'exercise') == 'exercise' }}"
+      solution:
+        +enabled: "{{ env_var('DBT_MODE', 'exercise') == 'solution' }}"
+        bronze:
+          +materialized: view
+          +schema: inmon_bronze
+          +tags: ["inmon_3nf", "bronze"]
+        silver:
+          +materialized: table
+          +schema: inmon_silver
+          +tags: ["inmon_3nf", "silver"]
+        gold:
+          +materialized: table
+          +schema: inmon_gold
+          +tags: ["inmon_3nf", "gold"]
+
+    # ── STAR SCHEMA ──────────────────────────────
+    StarSchema:
+      exercise:
+        +enabled: "{{ env_var('DBT_MODE', 'exercise') == 'exercise' }}"
+      solution:
+        +enabled: "{{ env_var('DBT_MODE', 'exercise') == 'solution' }}"
+        bronze:
+          +materialized: view
+          +schema: ss_bronze
+          +tags: ["star_schema", "bronze"]
+        silver:
+          +materialized: table
+          +schema: ss_silver
+          +tags: ["star_schema", "silver"]
+        gold:
+          +materialized: table
+          +schema: ss_gold
+          +tags: ["star_schema", "gold"]
+
+# ──────────────────────────────────────────────
+# Seed configurations
+# ──────────────────────────────────────────────
+seeds:
+  modelflow:
+    +schema: raw
+    +tags: ["seeds", "raw"]
+    raw_customers:
+      +column_types:
+        cust_id: integer
+        created_at: date
+    raw_products:
+      +column_types:
+        prod_id: integer
+        price: double
+    raw_orders:
+      +column_types:
+        order_id: integer
+        cust_id: integer
+        prod_id: integer
+        order_date: date
+        quantity: integer
+    raw_shipments:
+      +column_types:
+        shipment_id: integer
+        order_id: integer
+        ship_date: date
+
+vars:
+  datavault4dbt:
+    beginning_of_all_times: '0001-01-01 00:00:00'
+    end_of_all_times: '9999-12-31 23:59:59'
+    load_datetime: 'LOAD_DATE'
+    record_source: 'RECORD_SOURCE'
+    hash: 'md5'
