@@ -25,6 +25,13 @@ This document summarizes the results of the Multi-Architecture Data Modeling Wor
 ### Comparative ERDs
 The following diagrams (available in `modeling_results_viewer.ipynb`) demonstrate the structural differences:
 
+#### Inmon 3NF (Corporate Data Warehouse)
+```mermaid
+erDiagram
+    DIM_CUSTOMER_3NF ||--o{ FACT_ORDER_3NF : "references"
+    DIM_PRODUCT_3NF ||--o{ FACT_ORDER_3NF : "references"
+```
+
 #### Star Schema (BI Optimized)
 ```mermaid
 erDiagram
