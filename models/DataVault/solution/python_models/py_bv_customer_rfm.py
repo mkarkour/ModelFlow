@@ -8,6 +8,9 @@ Materialization: table
 Schema: dv_gold
 """
 
+import pandas as pd 
+import duckdb
+
 
 def model(dbt, session):
     """Build a customer RFM segmentation table from the Data Vault Business Vault.

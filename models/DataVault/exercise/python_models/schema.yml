@@ -1,1 +1,19 @@
-# Empty schema file for exercise.
+version: 2
+
+## EXERCISE: Define a schema.yml for the Data Vault Python models.
+##
+## HINTS:
+## 1. Declare the models: `bv_customer_latest` and `bv_sales_summary`.
+## 2. Test hash keys for uniqueness and non-nullability.
+## 3. Test referential integrity for links to hubs.
+## 4. Test descriptive attributes for nulls and accepted values where appropriate.
+
+# models:
+#   - name: model_name
+#     description: >
+#       text
+#     columns:
+#       - name: column_name
+#         description: text.
+#         data_type: string
+#         data_tests: [test_name]

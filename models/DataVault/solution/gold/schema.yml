@@ -8,10 +8,13 @@ models:
       is a layer on top of the Raw Vault designed for ease-of-use by consumers.
     columns:
       - name: hk_customer
+        data_type: varchar
         tests: [not_null, unique]
       - name: cust_id
+        data_type: integer
         tests: [not_null, unique]
       - name: cust_email
+        data_type: varchar
         tests: [not_null]
 
   - name: bv_sales_summary
@@ -21,10 +24,14 @@ models:
       Demonstrates the key DV pattern: join Hub/Link/Sat at query time.
     columns:
       - name: order_id
+        data_type: integer
         tests: [not_null, unique]
       - name: cust_name
+        data_type: varchar
         tests: [not_null]
       - name: product_name
+        data_type: varchar
         tests: [not_null]
       - name: gross_revenue
+        data_type: double
         tests: [not_null]

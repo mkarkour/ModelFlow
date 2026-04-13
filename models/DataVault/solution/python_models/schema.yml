@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  - name: py_bv_customer_rfm
+    description: >
+      Data Vault Gold: Customer RFM Segmentation (Python Model).
+      Computes Recency, Frequency, and Monetary (RFM) scores for each customer.
+    config:
+      materialized: table
+      schema: dv_gold
+      tags: ["data_vault", "gold", "python"]
+    columns:
+      - name: hk_customer
+        description: "Customer hash key."
+        data_type: varchar
+        tests: [not_null, unique]
+      - name: cust_name
+        description: "Customer name."
+        data_type: varchar
+      - name: cust_segment
+        description: "Customer segment."
+        data_type: varchar
+      - name: recency_days
+        description: "Days since last order."
+        data_type: integer
+      - name: frequency
+        description: "Number of unique orders."
+        data_type: integer
+      - name: monetary
+        description: "Total gross revenue from customer."
+        data_type: double
+      - name: recency_days_score
+        data_type: integer
+      - name: frequency_score
+        data_type: integer
+      - name: monetary_score
+        data_type: integer
+      - name: rfm_total_score
+        data_type: integer
+      - name: rfm_segment
+        description: "Segment label for customer."
+        data_type: varchar

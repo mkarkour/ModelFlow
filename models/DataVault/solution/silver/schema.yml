@@ -10,21 +10,27 @@ models:
     columns:
       - name: hk_customer
         description: "MD5 hash key of cust_id. Primary key of the Hub."
+        data_type: varchar
         tests: [not_null, unique]
       - name: cust_id
         description: "Customer business key (natural key from source)."
+        data_type: integer
         tests: [not_null, unique]
       - name: load_date
+        data_type: timestamp
         tests: [not_null]
       - name: record_source
+        data_type: varchar
         tests: [not_null]
 
   - name: hub_product
     description: "Data Vault Hub: Product. One row per prod_id business key."
     columns:
       - name: hk_product
+        data_type: varchar
         tests: [not_null, unique]
       - name: prod_id
+        data_type: integer
         tests: [not_null, unique]
 
   # ── LINKS ────────────────────────────────────────────────────────────────────
@@ -36,11 +42,14 @@ models:
     columns:
       - name: hk_order_link
         description: "Composite MD5 of order_id + cust_id + prod_id."
+        data_type: varchar
         tests: [not_null, unique]
       - name: hk_order
+        data_type: varchar
         tests: [not_null]
       - name: hk_customer
         description: "Foreign key to hub_customer."
+        data_type: varchar
         tests:
           - not_null
           - relationships:
@@ -48,6 +57,7 @@ models:
               field: hk_customer
       - name: hk_product
         description: "Foreign key to hub_product."
+        data_type: varchar
         tests:
           - not_null
           - relationships:
@@ -63,26 +73,31 @@ models:
     columns:
       - name: hk_customer
         description: "Foreign key to hub_customer."
+        data_type: varchar
         tests:
           - not_null
           - relationships:
               to: ref('hub_customer')
               field: hk_customer
       - name: hash_diff
+        data_type: varchar
         tests: [not_null]
       - name: cust_email
+        data_type: varchar
         tests: [not_null]
 
   - name: sat_product_details
     description: "Data Vault Satellite: Product Details."
     columns:
       - name: hk_product
+        data_type: varchar
         tests:
           - not_null
           - relationships:
               to: ref('hub_product')
               field: hk_product
       - name: hash_diff
+        data_type: varchar
         tests: [not_null]
 
   - name: sat_order_details
@@ -90,14 +105,17 @@ models:
     columns:
       - name: hk_order
         description: "Foreign key to link_order.hk_order."
+        data_type: varchar
         tests:
           - not_null
           - relationships:
               to: ref('link_order')
               field: hk_order
       - name: hash_diff
+        data_type: varchar
         tests: [not_null]
       - name: order_status
+        data_type: varchar
         tests:
           - not_null
           - accepted_values:

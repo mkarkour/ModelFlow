@@ -4,7 +4,18 @@
    
    HINTS:
    1. Select from {{ ref('raw_products') }}.
-   2. Compute hk_product and hash_diff.
+   2. Compute hk_product (hash_key on ['prod_id']) and hash_diff on descriptive fields.
+   3. Cast prod_id to integer, price and cost to double, is_active to boolean.
+   4. Include load_date() and 'seeds.raw_products' as record_source.
 */
 
--- YOUR CODE HERE
+-- Your code here:
+with source as (
+    -- select ...
+),
+
+staged as (
+    -- select ...
+)
+
+select * from staged

@@ -1,1 +1,19 @@
-# Empty schema file for exercise.
+version: 2
+
+## EXERCISE: Define a schema.yml for the Data Vault Silver models.
+##
+## HINTS:
+## 1. Declare the models: `hub_customer`, `hub_product`, `link_order`, `sat_customer_details`, `sat_product_details`, `sat_order_details`.
+## 2. Test hash keys for uniqueness and non-nullability.
+## 3. Test referential integrity for links to hubs.
+## 4. Test descriptive attributes for nulls and accepted values where appropriate.
+
+# models:
+#   - name: model_name
+#     description: >
+#       text
+#     columns:
+#       - name: column_name
+#         description: text.
+#         data_type: string
+#         data_tests: [test_name]
