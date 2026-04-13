@@ -1,0 +1,27 @@
+version: 2
+
+# =============================================================================
+# Test documentation — singular & generic exercise tests
+#
+# Document your custom tests here so dbt can surface their descriptions
+# in `dbt docs generate`.
+#
+# Singular tests live directly in tests/ and run as standalone SQL assertions.
+# Generic tests live in tests/generic/ and are referenced from schema.yml files.
+# =============================================================================
+
+exposures: []   # placeholder — remove if you add real exposures
+
+macros:
+  - name: custom_check
+    description: >
+      Reusable generic test (Bonus B exercise). Implement the check logic
+      inside tests/generic/test_custom_check.sql and reference it from any
+      model's schema.yml under the tests: key.
+    arguments:
+      - name: model
+        type: relation
+        description: The model being tested.
+      - name: column_name
+        type: string
+        description: The column to inspect.
