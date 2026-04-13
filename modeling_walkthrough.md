@@ -84,6 +84,12 @@ seeds/ (raw_customers, raw_products, raw_orders, raw_shipments)
 
 ```mermaid
 erDiagram
+    SAT_PRODUCT_DETAILS ||--o| HUB_PRODUCT : "hk_product"
+    HUB_PRODUCT  ||--o{ LINK_ORDER : "hk_product"
+    HUB_CUSTOMER ||--o{ LINK_ORDER : "hk_customer"
+    HUB_CUSTOMER ||--o{ SAT_CUSTOMER_DETAILS : "hk_customer"
+    LINK_ORDER   ||--o{ SAT_ORDER_DETAILS : "hk_order_link"
+
     HUB_CUSTOMER {
         varchar hk_customer PK
         int     cust_id
@@ -116,8 +122,6 @@ erDiagram
         varchar hk_product   FK
         varchar hash_diff
         varchar product_name
-        varchar cust_email
-        varchar cust_segment
         varchar category
         varchar subcategory
         int     price
@@ -135,11 +139,6 @@ erDiagram
         varchar order_status
         ts      load_date
     }
-    HUB_CUSTOMER ||--o{ LINK_ORDER : "hk_customer"
-    HUB_PRODUCT  ||--o{ LINK_ORDER : "hk_product"
-    HUB_CUSTOMER ||--o{ SAT_CUSTOMER_DETAILS : "hk_customer"
-    HUB_PRODUCT  ||--o{ SAT_PRODUCT_DETAILS : "hk_product"
-    LINK_ORDER   ||--o{ SAT_ORDER_DETAILS : "hk_order_link"
 ```
 
 **Key design constraints enforced by tests**:
