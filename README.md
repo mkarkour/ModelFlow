@@ -107,6 +107,10 @@ This repository supports two modes controlled by the `DBT_MODE` environment vari
     ```
 
 Verify the active mode at any time:
+```bash
+echo ${DBT_MODE:-exercise} 
+```
+or
 
 ```bash
 dbt run-operation check_mode --profiles-dir .

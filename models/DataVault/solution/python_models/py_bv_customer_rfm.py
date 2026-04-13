@@ -51,14 +51,15 @@ def model(dbt, session):
 
     for metric in ["recency_days", "frequency", "monetary"]:
         col_name = f"{metric}_score"
+        _, bins = pd.qcut(rfm[metric], q=4, retbins=True, duplicates="drop")
+        n_bins = len(bins) - 1
         if metric == "recency_days":
-            rfm[col_name] = pd.qcut(
-                rfm[metric], q=4, labels=[4, 3, 2, 1], duplicates="drop"
-            ).astype(int)
+            labels = list(range(n_bins, 0, -1))  # inverted: lower recency = higher score
         else:
-            rfm[col_name] = pd.qcut(
-                rfm[metric], q=4, labels=[1, 2, 3, 4], duplicates="drop"
-            ).astype(int)
+            labels = list(range(1, n_bins + 1))
+        rfm[col_name] = pd.qcut(
+            rfm[metric], q=4, labels=labels, duplicates="drop"
+        ).astype(int)
 
     rfm["rfm_total_score"] = (
         rfm["recency_days_score"] + rfm["frequency_score"] + rfm["monetary_score"]

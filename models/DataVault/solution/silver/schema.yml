@@ -103,14 +103,14 @@ models:
   - name: sat_order_details
     description: "Data Vault Satellite: Order Details."
     columns:
-      - name: hk_order
-        description: "Foreign key to link_order.hk_order."
+      - name: hk_order_link
+        description: "Foreign key to link_order.hk_order_link."
         data_type: varchar
         data_tests:
           - not_null
           - relationships:
               to: ref('link_order')
-              field: hk_order
+              field: hk_order_link
       - name: hash_diff
         data_type: varchar
         data_tests: [not_null]
