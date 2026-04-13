@@ -1,22 +1,22 @@
-## EXERCISE: Define a schema.yml for the Star Schema bronze staging models.
+## EXERCISE: Define a schema.yml for the Star Schema Bronze staging models.
 ##
 ## HINTS:
-## 1. Declare all three staging models
-## 2. Add a description for each model
-## 3. Define generic tests on key columns (not_null, unique)
-## 4. Ensure primary keys and important foreign keys are tested
+## 1. Declare the staging models: bronze_ss_stg_customers, bronze_ss_stg_products, and bronze_ss_stg_orders.
+## 2. Add a basic description for each source model identifying its purpose.
+## 3. Define generic tests (not_null, unique) on the natural primary keys: cust_id, prod_id, order_id.
+## 4. Test referential integrity (e.g. ensuring cust_id in orders exists in customers using the `relationships` test).
 ## 5. PRO TIP: Use the `dbt_codegen` package to generate a proper template! 
-##    Run: dbt run-operation generate_model_yaml --args '{"model_names": ["your_model_name"]}'
+##    Run: dbt run-operation generate_model_yaml --args '{"model_names": ["bronze_ss_stg_orders"]}'
 
 version: 2
 
 ## YOUR SCHEMA HERE
-models:
-  - name: model_name
-    description: >
-      text
-    columns:
-      - name: column_name
-        description: text.
-        data_type: string
-        data_tests: [test_name]
+# models:
+#   - name: model_name
+#     description: >
+#       text
+#     columns:
+#       - name: column_name
+#         description: text.
+#         data_type: string
+#         data_tests: [test_name]

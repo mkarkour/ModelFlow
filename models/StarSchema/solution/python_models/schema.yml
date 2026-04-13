@@ -1,0 +1,60 @@
+version: 2
+
+models:
+  - name: py_mart_sales_anomaly
+    description: >
+      Monthly sales anomaly detection per product category using rolling statistics (Python Model).
+      Flags months where total revenue deviates more than 2 standard deviations from the 3-month trailing average.
+    config:
+      materialized: table
+      schema: ss_gold
+      tags: ["star_schema", "gold", "python"]
+    columns:
+      - name: category
+        description: "Product category."
+        data_type: varchar
+        data_tests: [not_null]
+      - name: year
+        description: "Year of the sales."
+        data_type: integer
+        data_tests: [not_null]
+      - name: month_num
+        description: "Month number."
+        data_type: integer
+        data_tests: [not_null]
+      - name: month_name
+        description: "Month name."
+        data_type: varchar
+      - name: year_month
+        description: "Year and month label (e.g. 2023-01)."
+        data_type: varchar
+        data_tests: [not_null]
+      - name: total_revenue
+        description: "Total gross revenue for the category in the specified month."
+        data_type: double
+        data_tests: [not_null]
+      - name: total_orders
+        description: "Total unique orders."
+        data_type: integer
+      - name: total_units
+        description: "Total quantity of units sold."
+        data_type: integer
+      - name: rolling_avg_3m
+        description: "Trailing 3-month rolling average of total revenue."
+        data_type: double
+      - name: rolling_std_3m
+        description: "Trailing 3-month standard deviation of total revenue."
+        data_type: double
+      - name: upper_bound
+        description: "Upper bound threshold (mean + 2 stdev)."
+        data_type: double
+      - name: lower_bound
+        description: "Lower bound threshold (mean - 2 stdev)."
+        data_type: double
+      - name: is_anomaly
+        description: "Boolean flag set to TRUE if total revenue falls outside the upper/lower bounds."
+        data_type: boolean
+        data_tests: [not_null]
+      - name: deviation_pct
+        description: "Percentage deviation from the rolling average."
+        data_type: double

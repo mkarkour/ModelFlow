@@ -10,6 +10,9 @@ Materialization: table
 Schema: ss_gold
 """
 
+import pandas as pd
+import duckdb
+
 
 def model(dbt, session):
     """Build a monthly sales anomaly report from the Star Schema fact and dimensions.

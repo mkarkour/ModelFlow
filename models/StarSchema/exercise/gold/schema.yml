@@ -1,22 +1,22 @@
-## EXERCISE: Define a schema.yml for the Star Schema bronze staging models.
+## EXERCISE: Define a schema.yml for the Star Schema Gold models.
 ##
 ## HINTS:
-## 1. Declare all three staging models
-## 2. Add a description for each model
-## 3. Define generic tests on key columns (not_null, unique)
-## 4. Ensure primary keys and important foreign keys are tested
+## 1. Declare the wide BI analytics mart(s), such as mart_sales_dashboard.
+## 2. Add descriptions catering to the end BI user, clarifying what the table represents.
+## 3. Define `not_null` or `unique` tests to ensure final data quality prior to BI consumption.
+## 4. Ensure complex metric formulas (e.g., gross_margin_pct) are clearly documented in column descriptions.
 ## 5. PRO TIP: Use the `dbt_codegen` package to generate a proper template! 
-##    Run: dbt run-operation generate_model_yaml --args '{"model_names": ["your_model_name"]}'
+##    Run: dbt run-operation generate_model_yaml --args '{"model_names": ["mart_sales_dashboard"]}'
 
 version: 2
 
 ## YOUR SCHEMA HERE
-models:
-  - name: model_name
-    description: >
-      text
-    columns:
-      - name: column_name
-        description: text.
-        data_type: string
-        data_tests: [test_name]
+# models:
+#   - name: model_name
+#     description: >
+#       text
+#     columns:
+#       - name: column_name
+#         description: text.
+#         data_type: string
+#         data_tests: [test_name]

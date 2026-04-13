@@ -1,0 +1,22 @@
+## EXERCISE: Define a schema.yml for the Star Schema Silver models.
+##
+## HINTS:
+## 1. Declare the dimension and fact models: dim_customer_scd2, dim_product_scd2, dim_date, and fact_sales.
+## 2. Document the purpose of each table, briefly explaining the SCD2 methodology or fact granularity.
+## 3. Test the generated Surrogate Keys (customer_sk, product_sk) for uniqueness and nullity.
+## 4. Test referential integrity on the fact table using `relationships` to ensure fact SKs exist in the dimension tables.
+## 5. PRO TIP: Use the `dbt_codegen` package to generate a proper template! 
+##    Run: dbt run-operation generate_model_yaml --args '{"model_names": ["fact_sales"]}'
+
+version: 2
+
+## YOUR SCHEMA HERE
+# models:
+#   - name: model_name
+#     description: >
+#       text
+#     columns:
+#       - name: column_name
+#         description: text.
+#         data_type: string
+#         data_tests: [test_name]

@@ -6,47 +6,47 @@ seeds:
     columns:
       - name: cust_id
         description: "Unique customer identifier (business key)."
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: name
-        tests: [not_null]
+        data_tests: [not_null]
       - name: email
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: country
-        tests: [not_null]
+        data_tests: [not_null]
       - name: city
-        tests: [not_null]
+        data_tests: [not_null]
       - name: segment
-        tests:
+        data_tests:
           - not_null
           - accepted_values:
               values: ['Consumer', 'Corporate', 'Home Office']
       - name: created_at
-        tests: [not_null]
+        data_tests: [not_null]
       - name: updated_at
-        tests: [not_null]
+        data_tests: [not_null]
 
   - name: raw_products
     description: "Raw product catalog records."
     columns:
       - name: prod_id
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: product_name
-        tests: [not_null]
+        data_tests: [not_null]
       - name: category
-        tests:
+        data_tests:
           - not_null
           - accepted_values:
               values: ['Electronics', 'Apparel', 'Home', 'Toys', 'Sports']
       - name: price
-        tests: [not_null]
+        data_tests: [not_null]
       - name: sku
-        tests:
+        data_tests:
           - unique
           - not_null
 
@@ -54,24 +54,24 @@ seeds:
     description: "Raw order transaction records."
     columns:
       - name: order_id
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: cust_id
-        tests: [not_null]
+        data_tests: [not_null]
       - name: prod_id
-        tests: [not_null]
+        data_tests: [not_null]
       - name: order_date
-        tests: [not_null]
+        data_tests: [not_null]
       - name: quantity
-        tests: [not_null]
+        data_tests: [not_null]
       - name: status
-        tests:
+        data_tests:
           - not_null
           - accepted_values:
               values: ['Shipped', 'Cancelled', 'Pending', 'Returned']
       - name: channel
-        tests:
+        data_tests:
           - not_null
           - accepted_values:
               values: ['Web', 'Mobile', 'In-Store', 'Partner']
@@ -80,17 +80,17 @@ seeds:
     description: "Raw shipment / fulfillment records (only for Shipped and Returned orders)."
     columns:
       - name: shipment_id
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: order_id
-        tests: [not_null]
+        data_tests: [not_null]
       - name: carrier
-        tests:
+        data_tests:
           - not_null
           - accepted_values:
               values: ['DHL', 'FedEx', 'UPS', 'USPS', 'DPD']
       - name: ship_date
-        tests: [not_null]
+        data_tests: [not_null]
       - name: delivery_date
-        tests: [not_null]
+        data_tests: [not_null]

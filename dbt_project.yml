@@ -116,3 +116,24 @@ vars:
     load_datetime: 'LOAD_DATE'
     record_source: 'RECORD_SOURCE'
     hash: 'md5'
+
+# ──────────────────────────────────────────────
+# Snapshot configurations
+# ──────────────────────────────────────────────
+snapshots:
+  modelflow:
+    DataVault:
+      exercise:
+        +enabled: "{{ env_var('DBT_MODE', 'exercise') == 'exercise' }}"
+      solution:
+        +enabled: "{{ env_var('DBT_MODE', 'exercise') == 'solution' }}"
+    Inmon3NF:
+      exercise:
+        +enabled: "{{ env_var('DBT_MODE', 'exercise') == 'exercise' }}"
+      solution:
+        +enabled: "{{ env_var('DBT_MODE', 'exercise') == 'solution' }}"
+    StarSchema:
+      exercise:
+        +enabled: "{{ env_var('DBT_MODE', 'exercise') == 'exercise' }}"
+      solution:
+        +enabled: "{{ env_var('DBT_MODE', 'exercise') == 'solution' }}"

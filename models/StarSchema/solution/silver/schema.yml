@@ -10,16 +10,21 @@ models:
     columns:
       - name: customer_sk
         description: "Surrogate key = MD5(cust_id, valid_from). Primary key."
-        tests: [not_null, unique]
+        data_type: varchar
+        data_tests: [not_null, unique]
       - name: cust_id
         description: "Natural/business key — NOT unique (multiple versions can exist)."
-        tests: [not_null]
+        data_type: integer
+        data_tests: [not_null]
       - name: valid_from
-        tests: [not_null]
+        data_type: timestamp
+        data_tests: [not_null]
       - name: valid_to
-        tests: [not_null]
+        data_type: timestamp
+        data_tests: [not_null]
       - name: is_current
-        tests: [not_null]
+        data_type: boolean
+        data_tests: [not_null]
 
   - name: dim_product_scd2
     description: >
@@ -27,13 +32,17 @@ models:
       in this workshop; structure accommodates future incremental price changes.
     columns:
       - name: product_sk
-        tests: [not_null, unique]
+        data_type: varchar
+        data_tests: [not_null, unique]
       - name: prod_id
-        tests: [not_null, unique]  # unique here because only 1 version per product
+        data_type: integer
+        data_tests: [not_null, unique]  # unique here because only 1 version per product
       - name: price
-        tests: [not_null]
+        data_type: double
+        data_tests: [not_null]
       - name: category
-        tests:
+        data_type: varchar
+        data_tests:
           - not_null
           - accepted_values:
               values: ['Electronics', 'Apparel', 'Home', 'Toys', 'Sports']
@@ -45,13 +54,17 @@ models:
     columns:
       - name: date_key
         description: "Integer date key in YYYYMMDD format. Primary key."
-        tests: [not_null, unique]
+        data_type: integer
+        data_tests: [not_null, unique]
       - name: full_date
-        tests: [not_null, unique]
+        data_type: date
+        data_tests: [not_null, unique]
       - name: year
-        tests: [not_null]
+        data_type: integer
+        data_tests: [not_null]
       - name: is_weekend
-        tests: [not_null]
+        data_type: boolean
+        data_tests: [not_null]
 
   - name: fact_sales
     description: >
@@ -62,34 +75,44 @@ models:
     columns:
       - name: order_id
         description: "Degenerate dimension — natural order key retained on fact."
-        tests: [not_null, unique]
+        data_type: integer
+        data_tests: [not_null, unique]
       - name: customer_sk
         description: "FK → dim_customer_scd2.customer_sk (surrogate key)."
-        tests:
+        data_type: varchar
+        data_tests:
           - not_null
           - relationships:
-              to: ref('dim_customer_scd2')
-              field: customer_sk
+              arguments:
+                to: ref('dim_customer_scd2')
+                field: customer_sk
       - name: product_sk
         description: "FK → dim_product_scd2.product_sk."
-        tests:
+        data_type: varchar
+        data_tests:
           - not_null
           - relationships:
-              to: ref('dim_product_scd2')
-              field: product_sk
+              arguments:
+                to: ref('dim_product_scd2')
+                field: product_sk
       - name: order_date_key
         description: "FK → dim_date.date_key."
-        tests:
+        data_type: integer
+        data_tests:
           - not_null
           - relationships:
-              to: ref('dim_date')
-              field: date_key
+              arguments:
+                to: ref('dim_date')
+                field: date_key
       - name: gross_revenue
-        tests: [not_null]
+        data_type: double
+        data_tests: [not_null]
       - name: gross_margin
-        tests: [not_null]
+        data_type: double
+        data_tests: [not_null]
       - name: order_status
-        tests:
+        data_type: varchar
+        data_tests:
           - not_null
           - accepted_values:
               values: ['Shipped', 'Cancelled', 'Pending', 'Returned']

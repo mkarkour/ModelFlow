@@ -1,0 +1,22 @@
+## EXERCISE: Define a schema.yml for the Star Schema Python models.
+##
+## HINTS:
+## 1. Declare the Python model: py_mart_sales_anomaly.
+## 2. Add a description explaining the anomaly detection logic (e.g., flagging revenue that's 2 standard deviations outside the 3-month trailing average).
+## 3. Document important calculated columns like `is_anomaly`, `rolling_avg_3m`, and `deviation_pct`.
+## 4. Define generic tests (e.g., `data_tests: [not_null]`) on critical dimensions (category, year_month) to ensure the grouping was valid.
+## 5. PRO TIP: Use the `dbt_codegen` package to generate a proper template! 
+##    Run: dbt run-operation generate_model_yaml --args '{"model_names": ["py_mart_sales_anomaly"]}'
+
+version: 2
+
+## YOUR SCHEMA HERE
+# models:
+#   - name: model_name
+#     description: >
+#       text
+#     columns:
+#       - name: column_name
+#         description: text.
+#         data_type: string
+#         data_tests: [test_name]

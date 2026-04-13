@@ -9,17 +9,23 @@ models:
       like Tableau, Power BI, Metabase, and Looker.
     columns:
       - name: order_id
-        tests: [not_null, unique]
+        data_type: integer
+        data_tests: [not_null, unique]
       - name: cust_id
-        tests: [not_null]
+        data_type: integer
+        data_tests: [not_null]
       - name: prod_id
-        tests: [not_null]
+        data_type: integer
+        data_tests: [not_null]
       - name: order_date
-        tests: [not_null]
+        data_type: date
+        data_tests: [not_null]
       - name: gross_revenue
-        tests: [not_null]
+        data_type: double
+        data_tests: [not_null]
       - name: gross_margin
-        tests: [not_null]
+        data_type: double
+        data_tests: [not_null]
 
   - name: mart_product_performance
     description: >
@@ -27,10 +33,14 @@ models:
       and channel mix metrics. Grain = one row per (product, year-month).
     columns:
       - name: prod_id
-        tests: [not_null]
+        data_type: integer
+        data_tests: [not_null]
       - name: year_month
-        tests: [not_null]
+        data_type: varchar
+        data_tests: [not_null]
       - name: total_gross_revenue
-        tests: [not_null]
+        data_type: double
+        data_tests: [not_null]
       - name: gross_margin_pct
-        tests: [not_null]
+        data_type: double
+        data_tests: [not_null]
