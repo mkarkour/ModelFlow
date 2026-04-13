@@ -9,13 +9,13 @@ models:
     columns:
       - name: hk_customer
         data_type: varchar
-        tests: [not_null, unique]
+        data_tests: [not_null, unique]
       - name: cust_id
         data_type: integer
-        tests: [not_null, unique]
+        data_tests: [not_null, unique]
       - name: cust_email
         data_type: varchar
-        tests: [not_null]
+        data_tests: [not_null]
 
   - name: bv_sales_summary
     description: >
@@ -25,13 +25,13 @@ models:
     columns:
       - name: order_id
         data_type: integer
-        tests: [not_null, unique]
+        data_tests: [not_null, unique]
       - name: cust_name
         data_type: varchar
-        tests: [not_null]
+        data_tests: [not_null]
       - name: product_name
         data_type: varchar
-        tests: [not_null]
+        data_tests: [not_null]
       - name: gross_revenue
         data_type: double
-        tests: [not_null]
+        data_tests: [not_null]
