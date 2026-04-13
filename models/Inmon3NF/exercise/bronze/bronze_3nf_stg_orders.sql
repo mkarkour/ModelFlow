@@ -1,11 +1,7 @@
-/* EXERCISE: Create a staging model for Inmon 3NF orders.
-   
-   PATH: models/Inmon3NF/exercise/bronze/bronze_3nf_stg_orders.sql
+/* EXERCISE: Inmon 3NF Bronze - Staging Orders
    
    HINTS:
-   1. Select from {{ ref('raw_orders') }}
-   2. Join with {{ ref('raw_products') }} to get the current price/cost.
-   3. Calculate gross_revenue (quantity * price).
+   1. Select from the `raw_orders` seed.
 */
 
 -- YOUR CODE HERE

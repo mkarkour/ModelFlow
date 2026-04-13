@@ -1,10 +1,16 @@
-/* EXERCISE: Create a 3NF normalized customer entity.
-   
-   PATH: models/Inmon3NF/exercise/silver/dim_customer_3nf.sql
+/* EXERCISE: Inmon 3NF Silver - Customer Entity (3NF CDW)
    
    HINTS:
-   1. Simple select with distinct on 'cust_id'.
-   2. Ensure no descriptive redundancy.
+   1. Select from `bronze_3nf_stg_customers`.
+   2. Select normal customer attributes and metadata columns.
 */
 
--- YOUR CODE HERE
+with staged as (
+    -- TODO: Select from bronze_3nf_stg_customers
+    -- YOUR CODE HERE
+)
+
+select
+    -- TODO: Select cust_id (PK), cust_name, cust_email, cust_country, cust_city, cust_segment, created_at, updated_at, _loaded_at
+    -- YOUR CODE HERE
+from staged

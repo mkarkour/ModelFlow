@@ -1,0 +1,17 @@
+version: 2
+
+## EXERCISE: Define a schema.yml for the Inmon 3NF Bronze staging models.
+##
+## HINTS:
+## 1. Declare the staging models: `bronze_3nf_stg_customers`, `bronze_3nf_stg_products`, and `bronze_3nf_stg_orders`.
+## 2. Test natural primary keys (e.g. cust_id).
+
+# models:
+#   - name: model_name
+#     description: >
+#       text
+#     columns:
+#       - name: column_name
+#         description: text.
+#         data_type: string
+#         data_tests: [test_name]

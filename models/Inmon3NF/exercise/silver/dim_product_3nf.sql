@@ -1,9 +1,16 @@
-/* EXERCISE: Create an Inmon 3NF normalized product entity.
-   
-   PATH: models/Inmon3NF/exercise/silver/dim_product_3nf.sql
+/* EXERCISE: Inmon 3NF Silver - Product Entity (3NF CDW)
    
    HINTS:
-   1. Select distinct prod_id, product_name from staging.
+   1. Select from `bronze_3nf_stg_products`.
+   2. Select normal product attributes.
 */
 
--- YOUR CODE HERE
+with staged as (
+    -- TODO: Select from bronze_3nf_stg_products
+    -- YOUR CODE HERE
+)
+
+select
+    -- TODO: Select prod_id (PK), product_name, category, subcategory, price, cost, sku, is_active, _loaded_at
+    -- YOUR CODE HERE
+from staged

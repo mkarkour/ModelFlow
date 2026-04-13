@@ -9,6 +9,9 @@ Materialization: table
 Schema: inmon_gold
 """
 
+import pandas as pd 
+import duckdb
+
 
 def model(dbt, session):
     """Build a customer lifetime value analysis table from the 3NF CDW.

@@ -1,6 +1,37 @@
-/* EXERCISE: Create Inmon 3NF customer sales report.
+/* EXERCISE: Inmon 3NF Gold - Sales by Customer Report
    
-   PATH: models/Inmon3NF/exercise/gold/rpt_sales_by_customer.sql
+   HINTS:
+   1. Filter out 'Cancelled' orders from `fact_order_3nf`.
+   2. Grab `dim_customer_3nf`.
+   3. Group by customer attributes and calculate order metrics:
+      - `total_orders`: count of order_id
+      - `total_units_sold`: sum of quantity
+      - `total_gross_revenue`: sum of gross_revenue, etc.
+   4. Calculate date metrics (first_order_date, last_order_date, customer_lifetime_days).
 */
 
--- YOUR CODE HERE
+with fact as (
+    -- TODO: Select from fact_order_3nf where order_status is not Cancelled
+    -- YOUR CODE HERE
+),
+
+customers as (
+    -- TODO: Select from dim_customer_3nf
+    -- YOUR CODE HERE
+)
+
+select
+    -- ── Customer Description
+    -- TODO: cust_id, cust_name, cust_country, cust_segment, cust_city
+
+    -- ── Order Metrics
+    -- TODO: count of orders, sum of quantity
+
+    -- ── Revenue Metrics
+    -- TODO: total_gross_revenue, total_cost, total_gross_margin, avg_order_value
+    
+    -- ── Date Metrics
+    -- TODO: first_order_date, last_order_date, customer_lifetime_days
+    
+from customers c
+-- TODO: left join fact f on cust_id, group by customer columns, filter where total_orders > 0

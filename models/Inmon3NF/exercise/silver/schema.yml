@@ -1,0 +1,18 @@
+version: 2
+
+## EXERCISE: Define a schema.yml for the Inmon 3NF Silver models.
+##
+## HINTS:
+## 1. Declare `dim_customer_3nf`, `dim_product_3nf`, `fact_order_3nf`.
+## 2. Document that these are strictly 3NF normalized tables.
+## 3. Implement referential integrity using `relationships` to ensure fact keys match dimension keys.
+
+# models:
+#   - name: model_name
+#     description: >
+#       text
+#     columns:
+#       - name: column_name
+#         description: text.
+#         data_type: string
+#         data_tests: [test_name]

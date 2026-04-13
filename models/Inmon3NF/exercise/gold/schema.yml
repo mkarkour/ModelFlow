@@ -1,0 +1,17 @@
+version: 2
+
+## EXERCISE: Define a schema.yml for the Inmon 3NF Gold models.
+##
+## HINTS:
+## 1. Declare `rpt_sales_by_customer` and `rpt_sales_by_product`.
+## 2. Document the aggregated metrics.
+
+# models:
+#   - name: model_name
+#     description: >
+#       text
+#     columns:
+#       - name: column_name
+#         description: text.
+#         data_type: string
+#         data_tests: [test_name]

@@ -1,0 +1,16 @@
+version: 2
+
+## EXERCISE: Define a schema.yml for the Inmon 3NF python models.
+##
+## HINTS:
+## 1. Declare `py_rpt_customer_ltv`.
+
+# models:
+#   - name: model_name
+#     description: >
+#       text
+#     columns:
+#       - name: column_name
+#         description: text.
+#         data_type: string
+#         data_tests: [test_name]
