@@ -7,19 +7,19 @@ models:
       CDW silver layer (fact_order_3nf + dim_customer_3nf).
     columns:
       - name: cust_id
-        tests: [not_null, unique]
+        data_tests: [not_null, unique]
       - name: total_gross_revenue
-        tests: [not_null]
+        data_tests: [not_null]
       - name: total_orders
-        tests: [not_null]
+        data_tests: [not_null]
 
   - name: rpt_sales_by_product
     description: >
       Inmon 3NF Gold: Pre-aggregated product sales report with margin analysis.
     columns:
       - name: prod_id
-        tests: [not_null, unique]
+        data_tests: [not_null, unique]
       - name: total_gross_revenue
-        tests: [not_null]
+        data_tests: [not_null]
       - name: gross_margin_pct
-        tests: [not_null]
+        data_tests: [not_null]
