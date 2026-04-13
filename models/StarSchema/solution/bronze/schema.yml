@@ -7,17 +7,25 @@ models:
       dimension loading in the silver layer.
     columns:
       - name: cust_id
-        tests: [not_null, unique]
+        description: Primary key for the customer.
+        data_type: integer
+        data_tests: [not_null, unique]
       - name: cust_email
-        tests: [not_null, unique]
+        description: Standardized email address for the customer.
+        data_type: varchar
+        data_tests: [not_null, unique]
 
   - name: bronze_ss_stg_products
-    description: "Star Schema bronze staging for products."
+    description: Star Schema bronze staging for products.
     columns:
       - name: prod_id
-        tests: [not_null, unique]
+        description: Primary key for the product.
+        data_type: integer
+        data_tests: [not_null, unique]
       - name: price
-        tests: [not_null]
+        description: Current list price of the product.
+        data_type: double
+        data_tests: [not_null]
 
   - name: bronze_ss_stg_orders
     description: >
@@ -25,10 +33,18 @@ models:
       from products at order time for the fact table grain.
     columns:
       - name: order_id
-        tests: [not_null, unique]
+        description: Primary key for the order.
+        data_type: integer
+        data_tests: [not_null, unique]
       - name: cust_id
-        tests: [not_null]
+        description: Foreign key referencing the customer who placed the order.
+        data_type: integer
+        data_tests: [not_null]
       - name: prod_id
-        tests: [not_null]
+        description: Foreign key referencing the product ordered.
+        data_type: integer
+        data_tests: [not_null]
       - name: gross_revenue
-        tests: [not_null]
+        description: Calculated revenue for this order line (quantity * unit_price * (1 - discount)).
+        data_type: double
+        data_tests: [not_null]

@@ -1,12 +1,10 @@
 /* EXERCISE: Create a staging model for Star Schema customers.
    
-   PATH: models/StarSchema/exercise/bronze/bronze_ss_stg_customers.sql
-   
    HINTS:
-   1. Select from {{ ref('raw_customers') }}
-   2. Cast cust_id to integer
-   3. Ensure names and emails are trimmed
-   4. Include created_at and updated_at for SCD2 tracking
+   1. Select from the raw_customers seed
+   2. Cast columns to appropriate types (integer, date)
+   3. Clean string columns (trim whitespace, normalize email)
+   4. Include temporal columns needed for SCD2 tracking downstream
 */
 
 -- YOUR CODE HERE

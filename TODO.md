@@ -11,3 +11,6 @@
 
 - README.md
    1. Improve the file to add a dbt debug so the user can test the connection before starting to build the models
+
+
+- write the python_models for the exercise section

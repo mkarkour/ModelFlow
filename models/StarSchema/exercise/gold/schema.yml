@@ -1,9 +1,9 @@
-## EXERCISE: Define a schema.yml for the Star Schema silver models.
+## EXERCISE: Define a schema.yml for the Star Schema bronze staging models.
 ##
 ## HINTS:
-## 1. Declare all three silver models
+## 1. Declare all three staging models
 ## 2. Add a description for each model
-## 3. Define generic tests on key columns (not_null, unique, custom tests)
+## 3. Define generic tests on key columns (not_null, unique)
 ## 4. Ensure primary keys and important foreign keys are tested
 ## 5. PRO TIP: Use the `dbt_codegen` package to generate a proper template! 
 ##    Run: dbt run-operation generate_model_yaml --args '{"model_names": ["your_model_name"]}'
