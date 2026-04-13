@@ -7,10 +7,13 @@ models:
       casing. No hash keys — uses natural PKs (cust_id) for FK enforcement.
     columns:
       - name: cust_id
+        data_type: integer
         tests: [not_null, unique]
       - name: cust_email
+        data_type: varchar
         tests: [not_null, unique]
       - name: cust_segment
+        data_type: varchar
         tests:
           - not_null
           - accepted_values:
@@ -20,22 +23,29 @@ models:
     description: "Inmon 3NF bronze staging for products."
     columns:
       - name: prod_id
+        data_type: integer
         tests: [not_null, unique]
       - name: sku
+        data_type: varchar
         tests: [not_null, unique]
       - name: price
+        data_type: double
         tests: [not_null]
 
   - name: bronze_3nf_stg_orders
     description: "Inmon 3NF bronze staging for orders."
     columns:
       - name: order_id
+        data_type: integer
         tests: [not_null, unique]
       - name: cust_id
+        data_type: integer
         tests: [not_null]
       - name: prod_id
+        data_type: integer
         tests: [not_null]
       - name: order_status
+        data_type: varchar
         tests:
           - not_null
           - accepted_values:

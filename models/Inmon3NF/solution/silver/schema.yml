@@ -11,15 +11,19 @@ models:
     columns:
       - name: cust_id
         description: "Natural primary key. Enforced as unique + not null."
+        data_type: integer
         data_tests: [not_null, unique]
       - name: cust_email
+        data_type: varchar
         data_tests: [not_null, unique]
       - name: cust_segment
+        data_type: varchar
         data_tests:
           - not_null
           - accepted_values:
               values: ['Consumer', 'Corporate', 'Home Office']
       - name: created_at
+        data_type: date
         data_tests: [not_null]
 
   - name: dim_product_3nf
@@ -28,12 +32,16 @@ models:
       No category descriptions stored here to avoid redundancy (3NF compliance).
     columns:
       - name: prod_id
+        data_type: integer
         data_tests: [not_null, unique]
       - name: sku
+        data_type: varchar
         data_tests: [not_null, unique]
       - name: price
+        data_type: double
         data_tests: [not_null]
       - name: category
+        data_type: varchar
         data_tests:
           - not_null
           - accepted_values:
@@ -47,9 +55,11 @@ models:
       Contrast with Data Vault, where referential integrity is soft/hash-based.
     columns:
       - name: order_id
+        data_type: integer
         data_tests: [not_null, unique]
       - name: cust_id
         description: "Foreign key → dim_customer_3nf.cust_id (HARD FK constraint via test)."
+        data_type: integer
         data_tests:
           - not_null
           - relationships:
@@ -57,16 +67,20 @@ models:
               field: cust_id
       - name: prod_id
         description: "Foreign key → dim_product_3nf.prod_id (HARD FK constraint via test)."
+        data_type: integer
         data_tests:
           - not_null
           - relationships:
               to: ref('dim_product_3nf')
               field: prod_id
       - name: quantity
+        data_type: integer
         data_tests: [not_null]
       - name: gross_revenue
+        data_type: double
         data_tests: [not_null]
       - name: order_status
+        data_type: varchar
         data_tests:
           - not_null
           - accepted_values:
