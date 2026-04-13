@@ -1,3 +1,13 @@
--- Macro definition moved to macros/test_satellite_no_duplicate_load.sql
--- Reference implementation for Bonus B — see macros/ for the executable version.
-select 1 where 1 = 0
+-- =============================================================================
+-- Singular Test: Satellite No Duplicate Load (Data Vault)
+-- Verifies that sat_customer_details never has two rows sharing the same
+-- hash key and load date. Duplicates indicate a broken idempotency contract.
+-- =============================================================================
+
+select
+    hk_customer,
+    load_date,
+    count(*) as duplicate_count
+from {{ ref('sat_customer_details') }}
+group by hk_customer, load_date
+having count(*) > 1

@@ -19,11 +19,22 @@
 -- The test FAILS if any rows are returned.
 -- =============================================================================
 
-{% test custom_check(model, column_name) %}
+-- =============================================================================
+-- Singular Test: Custom Check (Exercise)
+-- Write a SQL query that returns rows only when the assertion FAILS.
+-- dbt reports the test as failed if any rows are returned, passed if empty.
+--
+-- Template:
+--   SELECT <columns that identify the violation>
+--   FROM   {{ ref('your_model') }}
+--   WHERE  <condition that should never be true>
+--
+-- Example — no completed order should have zero or negative gross revenue:
+--   SELECT order_id, gross_revenue
+--   FROM   {{ ref('fact_order_3nf') }}
+--   WHERE  order_status != 'Cancelled'
+--     AND  gross_revenue <= 0
+-- =============================================================================
 
--- TODO: replace this with your check logic
-SELECT {{ column_name }}
-FROM   {{ model }}
-WHERE  1 = 0   -- always passes — replace this condition
-
-{% endtest %}
+-- TODO: replace this with your assertion
+select 1 where 1 = 0
