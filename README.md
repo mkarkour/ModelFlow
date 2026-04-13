@@ -115,25 +115,83 @@ dbt run-operation check_mode --profiles-dir .
 > [!TIP]
 > If you get stuck, use `export DBT_MODE=solution` to run the completed models and examine the reference code in the `solution/` subfolders!
 
-### Step 7 — Run all models
+---
 
-```bash
-# All three architectures
-dbt run --profiles-dir .
+## Workshop Iteration Loop
 
-# Or run a specific architecture
-dbt run --select DataVault --profiles-dir .
-dbt run --select Inmon3NF --profiles-dir .
-dbt run --select StarSchema --profiles-dir .
+Once the environment is running (Steps 0–6 above), every modeling exercise follows the same four-step loop:
+
+### 1. Open the exercise file
+
+All your work lives in the `exercise/` subfolder of the relevant architecture and layer. Navigate to the model you are working on:
+
+```
+models/
+  DataVault/exercise/bronze/    ← start here for Data Vault
+  DataVault/exercise/silver/
+  DataVault/exercise/gold/
+  Inmon3NF/exercise/bronze/     ← start here for Inmon 3NF
+  Inmon3NF/exercise/silver/
+  Inmon3NF/exercise/gold/
+  StarSchema/exercise/bronze/   ← start here for Star Schema
+  StarSchema/exercise/silver/
+  StarSchema/exercise/gold/
 ```
 
-### Step 8 — Run tests
+Each file contains hints and the expected output columns in comments. Read them carefully before writing any SQL.
+
+### 2. Write your SQL
+
+Fill in the transformation logic inside the file. Follow the layer conventions:
+
+- **Bronze** — staging only: cast types, trim strings, compute hash keys (Data Vault) or `unit_price`/`unit_cost` (Star Schema). No business logic.
+- **Silver** — core modeling: Hubs/Links/Satellites, 3NF entities, or SCD2 dimensions and facts.
+- **Gold** — business-ready outputs: assembled views, pre-aggregated reports, or fully denormalized BI marts.
+
+### 3. Build and test the model
+
+Run only the model you just wrote, then its tests:
 
 ```bash
-dbt test --profiles-dir .
+# Build a single model (run + test in one command)
+dbt build --select <model_name> --profiles-dir .
+
+# Or separately
+dbt run  --select <model_name> --profiles-dir .
+dbt test --select <model_name> --profiles-dir .
 ```
 
-### Step 9 — Generate & browse lineage docs
+To build an entire layer at once:
+
+```bash
+dbt build --select DataVault.exercise.silver --profiles-dir .
+```
+
+To build a model **and all its upstream dependencies**:
+
+```bash
+dbt build --select +<model_name> --profiles-dir .
+```
+
+> [!TIP]
+> Use `dbt build` rather than `dbt run` during exercises — it runs the model **and** its schema tests in a single command, so you get immediate feedback on constraints (not_null, unique, relationships).
+
+### 4. Inspect the results
+
+Open the Results Viewer notebook to preview the data produced by your model and compare it against the expected ERD:
+
+```bash
+jupyter notebook models/modeling_results_viewer.ipynb
+```
+
+Run the cell for the model you just built. If the output looks correct, move on to the next model in the layer. If something is off, go back to step 2.
+
+> [!NOTE]
+> Work through each architecture **layer by layer** (Bronze → Silver → Gold). Downstream models depend on upstream ones, so build them in order.
+
+---
+
+### Step 7 — Generate & browse lineage docs
 
 ```bash
 dbt docs generate --profiles-dir .
