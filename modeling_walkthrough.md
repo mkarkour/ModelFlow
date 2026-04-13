@@ -112,6 +112,21 @@ erDiagram
         varchar cust_segment
         ts      load_date
     }
+    SAT_PRODUCT_DETAILS {
+        varchar hk_product   FK
+        varchar hash_diff
+        varchar product_name
+        varchar cust_email
+        varchar cust_segment
+        varchar category
+        varchar subcategory
+        int     price
+        int     cost
+        varchar sku
+        bool    is_active
+        ts      load_date
+        varchar record_source
+    }
     SAT_ORDER_DETAILS {
         varchar hk_order_link FK
         varchar hash_diff
@@ -123,6 +138,7 @@ erDiagram
     HUB_CUSTOMER ||--o{ LINK_ORDER : "hk_customer"
     HUB_PRODUCT  ||--o{ LINK_ORDER : "hk_product"
     HUB_CUSTOMER ||--o{ SAT_CUSTOMER_DETAILS : "hk_customer"
+    HUB_PRODUCT  ||--o{ SAT_PRODUCT_DETAILS : "hk_product"
     LINK_ORDER   ||--o{ SAT_ORDER_DETAILS : "hk_order_link"
 ```
 
