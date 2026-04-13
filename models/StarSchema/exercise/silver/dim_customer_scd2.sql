@@ -19,4 +19,33 @@
    7. Wrap the result and generate `customer_sk` using `{{ dbt_utils.generate_surrogate_key(['cust_id', 'valid_from']) }}`.
 */
 
--- YOUR CODE HERE
+with staged as (
+    -- TODO: Select from bronze_ss_stg_customers
+    -- YOUR CODE HERE
+),
+
+v1 as (
+    -- TODO: Create "original" version (row at created_at) where created_at < updated_at
+    -- YOUR CODE HERE
+),
+
+v2 as (
+    -- TODO: Create "current" version (row at updated_at) where created_at < updated_at
+    -- YOUR CODE HERE
+),
+
+v_only as (
+    -- TODO: Customers with no update (single current row) where created_at = updated_at
+    -- YOUR CODE HERE
+),
+
+unioned as (
+    -- TODO: Combine v1, v2, and v_only using UNION ALL
+    -- YOUR CODE HERE
+)
+
+select
+    -- TODO: Generate surrogate key: {{ dbt_utils.generate_surrogate_key(['cust_id', 'valid_from']) }} as customer_sk
+    -- TODO: Select all columns from unioned
+    -- YOUR CODE HERE
+from unioned

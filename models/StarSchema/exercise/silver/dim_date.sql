@@ -12,4 +12,35 @@
       - `is_weekend` boolean flag
 */
 
--- YOUR CODE HERE
+with date_spine as (
+    -- TODO: Use dbt_utils.date_spine macro to generate dates
+    -- YOUR CODE HERE
+),
+
+dated as (
+    -- TODO: Select and cast date_day as full_date
+    -- YOUR CODE HERE
+)
+
+select
+    -- ── Primary Key
+    -- TODO: date_key
+    -- TODO: full_date
+
+    -- ── Year / Quarter / Month
+    -- TODO: year, quarter, month_num, month_name, month_abbr, month_name_alt
+
+    -- ── Week
+    -- TODO: week_of_year, day_of_week, day_name, day_abbr
+
+    -- ── Day
+    -- TODO: day_of_month, day_of_year
+
+    -- ── Flags
+    -- TODO: is_weekend
+
+    -- ── Period labels
+    -- TODO: quarter_label, year_month
+
+from dated
+-- TODO: order by full_date

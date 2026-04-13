@@ -11,4 +11,14 @@
       - `version`: 1
 */
 
--- YOUR CODE HERE
+with staged as (
+    -- TODO: Select from bronze_ss_stg_products
+    -- YOUR CODE HERE
+)
+
+select
+    -- TODO: Generate product_sk using {{ dbt_utils.generate_surrogate_key(['prod_id', "'2020-01-01'"]) }}
+    -- TODO: Select staging columns (prod_id, product_name, category, subcategory, price, cost, sku, is_active)
+    -- TODO: Add SCD2 temporal columns (valid_from, valid_to, is_current, version)
+    -- YOUR CODE HERE
+from staged
