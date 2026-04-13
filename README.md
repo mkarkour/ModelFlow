@@ -6,7 +6,7 @@ A comprehensive data engineering workspace demonstrating **three parallel modeli
 
 ---
 
-## 🏗️ Architecture Overview
+## Architecture Overview
 
 ```
 seeds/ (raw_customers, raw_products, raw_orders, raw_shipments)
@@ -18,11 +18,15 @@ Three parallel paths from the same Bronze source:
   ├── DataVault/   → Hubs  → Links  → Satellites  → Business Vault
   ├── Inmon3NF/   → 3NF Entities → CDW Fact      → Reporting Aggregations
   └── StarSchema/ → SCD2 Dims + Date → Fact Sales → BI Marts
+
+Each architecture has two subfolders controlled by DBT_MODE:
+  ├── exercise/   ← your work goes here  (DBT_MODE=exercise, default)
+  └── solution/   ← reference implementation  (DBT_MODE=solution)
 ```
 
 ---
 
-## 📋 Prerequisites
+## Prerequisites
 
 Ensure the following tools are installed before proceeding:
 
@@ -34,13 +38,13 @@ Ensure the following tools are installed before proceeding:
 
 ---
 
-## ⚡ Quick Start
+## Quick Start
 
 ### Step 0 — Clone the repository
 
 ```bash
 git clone git@code.euranova.eu:data-modeling-workshop/modelflow.git
-cd modelflow
+cd ModelFlow
 ```
 
 ### Step 1 — Create the virtual environment and install dependencies
@@ -93,14 +97,20 @@ dbt seed --profiles-dir .
 
 This repository supports two modes controlled by the `DBT_MODE` environment variable:
 
-*   **Exercise Mode (Default)**: Ignores solutions and looks at your work in the `exercise/` folders.
+- **Exercise Mode (Default)**: Runs models from `exercise/` subfolders — your code.
     ```bash
     export DBT_MODE=exercise  # or just leave it unset
     ```
-*   **Solution Mode**: Uses the pre-built, correct models.
+- **Solution Mode**: Runs models from `solution/` subfolders — the reference implementation.
     ```bash
     export DBT_MODE=solution
     ```
+
+Verify the active mode at any time:
+
+```bash
+dbt run-operation check_mode --profiles-dir .
+```
 
 > [!TIP]
 > If you get stuck, use `export DBT_MODE=solution` to run the completed models and examine the reference code in the `solution/` subfolders!
@@ -133,29 +143,29 @@ dbt docs serve --profiles-dir .
 
 ---
 
-## 🚀 Going Further — Bonus Exercises
+## Going Further — Bonus Exercises
 
 > These exercises are **optional** and independent from the core workshop. Complete them at your own pace once the main pipeline is running.
 >
-> **Solutions** are available under `snapshots/solution/`, `tests/solution/generic/`, and alongside the existing gold models. Set `export DBT_MODE=solution` to enable them.
+> **Solutions** are available under `snapshots/<Architecture>/solution/`, `tests/solution/generic/`, and alongside the existing gold models. Set `export DBT_MODE=solution` to enable them.
 
 ### Bonus A — dbt Snapshots (Change Data Capture)
 
-Implement [dbt snapshots](https://docs.getdbt.com/docs/build/snapshots) to capture historical changes over time. Create a `snapshots/` directory at the project root and build one snapshot per architecture:
+Implement [dbt snapshots](https://docs.getdbt.com/docs/build/snapshots) to capture historical changes over time. Write your snapshots in the `exercise/` subfolders under `snapshots/`:
 
-| Architecture | Snapshot Target | Strategy | Unique Key | Tracking Column(s) |
+| Architecture | Snapshot File | Strategy | Unique Key | Tracking Column(s) |
 |---|---|---|---|---|
-| **Data Vault** | `sat_customer_details` | `check` | `hk_customer` | `cust_name`, `cust_email`, `cust_country`, `cust_city`, `cust_segment` |
-| **Inmon 3NF** | `dim_customer_3nf` | `timestamp` | `cust_id` | `updated_at` |
-| **Star Schema** | `dim_customer_scd2` | `timestamp` | `customer_sk` | `valid_from` |
+| **Data Vault** | `snapshots/DataVault/exercise/snap_dv_sat_customer.sql` | `check` | `hk_customer` | `cust_name`, `cust_email`, `cust_country`, `cust_city`, `cust_segment` |
+| **Inmon 3NF** | `snapshots/Inmon3NF/exercise/snap_inmon_dim_customer.sql` | `timestamp` | `cust_id` | `updated_at` |
+| **Star Schema** | `snapshots/StarSchema/exercise/snap_ss_dim_customer.sql` | `timestamp` | `customer_sk` | `valid_from` |
 
 **Steps:**
-1. Create a snapshot SQL file for each architecture under `snapshots/`.
+1. Fill in the snapshot SQL file for each architecture in the `exercise/` folder.
 2. Modify one or more rows in the seed CSV (e.g., update a customer's email).
 3. Re-run `dbt seed --profiles-dir .` followed by `dbt snapshot --profiles-dir .`.
 4. Query the snapshot table to observe the historical record with `dbt_valid_from` / `dbt_valid_to` columns.
 
-> Reference solutions: `snapshots/solution/snap_dv_sat_customer.sql`, `snap_inmon_dim_customer.sql`, `snap_ss_dim_customer.sql`
+> Reference solutions: `snapshots/DataVault/solution/snap_dv_sat_customer.sql`, `snapshots/Inmon3NF/solution/snap_inmon_dim_customer.sql`, `snapshots/StarSchema/solution/snap_ss_dim_customer.sql`
 
 ### Bonus B — Custom Generic Tests
 
@@ -178,33 +188,34 @@ Write [custom generic tests](https://docs.getdbt.com/docs/build/data-tests#gener
 
 ### Bonus C — Python Models
 
-Implement [dbt Python models](https://docs.getdbt.com/docs/build/python-models) to add analytical capabilities that are impractical in pure SQL. Create one Python model per architecture in the `gold/` layer:
+Implement [dbt Python models](https://docs.getdbt.com/docs/build/python-models) to add analytical capabilities that are impractical in pure SQL. Write your Python models in the `python_models/` folder of the relevant architecture's `exercise/` directory:
 
 | Architecture | Model | Use Case | Why Python? |
 |---|---|---|---|
-| **Data Vault** | `py_bv_customer_rfm.py` | RFM customer segmentation | Percentile-based binning (`pd.qcut`) across multiple metrics |
-| **Inmon 3NF** | `py_rpt_customer_ltv.py` | Customer Lifetime Value | Purchase frequency projection + quantile-based tier assignment |
-| **Star Schema** | `py_mart_sales_anomaly.py` | Monthly revenue anomaly detection | Rolling statistics with conditional flagging across category partitions |
+| **Data Vault** | `models/DataVault/exercise/python_models/py_bv_customer_rfm.py` | RFM customer segmentation | Percentile-based binning (`pd.qcut`) across multiple metrics |
+| **Inmon 3NF** | `models/Inmon3NF/exercise/python_models/py_rpt_customer_ltv.py` | Customer Lifetime Value | Purchase frequency projection + quantile-based tier assignment |
+| **Star Schema** | `models/StarSchema/exercise/python_models/py_mart_sales_anomaly.py` | Monthly revenue anomaly detection | Rolling statistics with conditional flagging across category partitions |
 
 **Steps:**
-1. Create a `.py` file in the relevant `python_models/` directory (e.g., `models/DataVault/solution/python_models/`).
+1. Fill in the `.py` file in the relevant `exercise/python_models/` directory.
 2. Define a `model(dbt, session)` function that reads upstream models via `dbt.ref()` and returns a pandas DataFrame.
 3. Set `dbt.config(materialized="table", schema="<target_schema>")` inside the function.
 4. Run `dbt run --select <model_name> --profiles-dir .` and verify the output table.
 
 > Reference solutions: `models/DataVault/solution/python_models/py_bv_customer_rfm.py`, `models/Inmon3NF/solution/python_models/py_rpt_customer_ltv.py`, `models/StarSchema/solution/python_models/py_mart_sales_anomaly.py`
 
-> **⚠️ Important note on SQL vs. Python in dbt:**
+> **Important note on SQL vs. Python in dbt:**
 > dbt is fundamentally designed around SQL, and **SQL should remain your default choice** for data transformations. It is more performant, simpler to test, and natively understood by the dbt DAG. Python models should only be considered when a transformation **genuinely requires** capabilities that SQL lacks — such as statistical analysis with rolling windows, machine learning, complex conditional binning (e.g., percentile-based scoring), or calling external libraries. If a transformation can be expressed clearly in SQL, prefer SQL.
 
 ---
 
-## 📖 Essential Reading
+## Essential Reading
 
-- **[Results Viewer](modeling_results_viewer.ipynb)**: Data previews and interactive ERDs.
+- **[dbt Cheatsheet](dbt_cheatsheet.md)**: Quick reference for dbt commands and project structure concepts.
+- **[Results Viewer](models/modeling_results_viewer.ipynb)**: Data previews and interactive ERDs.
 - **[Workshop Walkthrough](modeling_walkthrough.md)**: A summary of everything built and verified.
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ModelFlow/
@@ -220,30 +231,63 @@ ModelFlow/
 │   ├── hash_key.sql               # MD5 hash key for Data Vault
 │   ├── hash_diff.sql              # Hash diff for satellite change detection
 │   ├── load_date.sql              # DV load date timestamp
-│   └── generate_surrogate_key.sql # Star Schema surrogate keys
+│   └── check_mode.sql             # Log the active DBT_MODE
 ├── models/
 │   ├── DataVault/
-│   │   ├── bronze/          ← staging with hash keys (hk_customer, hk_product, hk_order)
-│   │   ├── silver/          ← Hubs, Links, Satellites (Raw Vault)
-│   │   ├── gold/            ← Business Vault views (assembled, point-in-time)
-│   │   └── python_models/   ← Bonus C: Python models (RFM segmentation)
+│   │   ├── exercise/              ← your work (DBT_MODE=exercise, default)
+│   │   │   ├── bronze/            ← staging with hash keys (hk_customer, hk_product, hk_order)
+│   │   │   ├── silver/            ← Hubs, Links, Satellites (Raw Vault)
+│   │   │   ├── gold/              ← Business Vault views (assembled, point-in-time)
+│   │   │   └── python_models/    ← Bonus C: RFM segmentation
+│   │   └── solution/              ← reference implementation (DBT_MODE=solution)
+│   │       ├── bronze/
+│   │       ├── silver/
+│   │       ├── gold/
+│   │       └── python_models/
 │   ├── Inmon3NF/
-│   │   ├── bronze/          ← cleansed staging, no hash keys
-│   │   ├── silver/          ← 3NF CDW entities (dim_customer, dim_product, fact_order)
-│   │   ├── gold/            ← pre-aggregated reporting tables
-│   │   └── python_models/   ← Bonus C: Python models (CLV analysis)
+│   │   ├── exercise/              ← your work
+│   │   │   ├── bronze/            ← cleansed staging, no hash keys
+│   │   │   ├── silver/            ← 3NF CDW entities (dim_customer, dim_product, fact_order)
+│   │   │   ├── gold/              ← pre-aggregated reporting tables
+│   │   │   └── python_models/    ← Bonus C: CLV analysis
+│   │   └── solution/              ← reference implementation
+│   │       ├── bronze/
+│   │       ├── silver/
+│   │       ├── gold/
+│   │       └── python_models/
 │   └── StarSchema/
-│       ├── bronze/          ← staging with denormalized unit price/cost
-│       ├── silver/          ← SCD2 dims, date dim, fact_sales with surrogate keys
-│       ├── gold/            ← fully-denormalized BI marts
-│       └── python_models/   ← Bonus C: Python models (anomaly detection)
-├── tests/                          # Singular dbt tests
-│   ├── assert_no_orphan_orders_dv.sql
-│   ├── assert_3nf_referential_integrity.sql
-│   ├── assert_star_fact_no_orphan_keys.sql
-│   └── generic/                   # Bonus B: custom generic tests
+│       ├── exercise/              ← your work
+│       │   ├── bronze/            ← staging with denormalized unit price/cost
+│       │   ├── silver/            ← SCD2 dims, date dim, fact_sales with surrogate keys
+│       │   ├── gold/              ← fully-denormalized BI marts
+│       │   └── python_models/    ← Bonus C: anomaly detection
+│       └── solution/              ← reference implementation
+│           ├── bronze/
+│           ├── silver/
+│           ├── gold/
+│           └── python_models/
 ├── snapshots/                      # Bonus A: dbt snapshots (CDC)
+│   ├── DataVault/
+│   │   ├── exercise/snap_dv_sat_customer.sql
+│   │   └── solution/snap_dv_sat_customer.sql
+│   ├── Inmon3NF/
+│   │   ├── exercise/snap_inmon_dim_customer.sql
+│   │   └── solution/snap_inmon_dim_customer.sql
+│   └── StarSchema/
+│       ├── exercise/snap_ss_dim_customer.sql
+│       └── solution/snap_ss_dim_customer.sql
+├── tests/                          # dbt data tests
+│   └── solution/                  # Singular & generic reference tests
+│       ├── assert_no_orphan_orders_dv.sql
+│       ├── assert_3nf_referential_integrity.sql
+│       ├── assert_star_fact_no_orphan_keys.sql
+│       └── generic/               # Bonus B: custom generic tests
+│           ├── test_hash_key_determinism.sql
+│           ├── test_satellite_no_duplicate_load.sql
+│           ├── test_no_transitive_dependency.sql
+│           └── test_scd2_no_gap_no_overlap.sql
 ├── data_factory_init.ipynb         # Synthetic data generation notebook
+├── dbt_cheatsheet.md               # Quick dbt command reference
 ├── dbt_project.yml
 ├── profiles.yml                    # DuckDB profile (use --profiles-dir .)
 ├── packages.yml
@@ -252,7 +296,7 @@ ModelFlow/
 
 ---
 
-## 🔬 Methodology Comparison
+## Methodology Comparison
 
 | Aspect | Data Vault 2.0 | Inmon 3NF | Star Schema |
 |---|---|---|---|
@@ -267,21 +311,21 @@ ModelFlow/
 
 ---
 
-## 🧪 Test Suite
+## Test Suite
 
-| Test Type | Architecture | File | What it Validates |
+| Test Type | Architecture | Location | What it Validates |
 |---|---|---|---|
 | Generic (not_null, unique) | All | `*/schema.yml` | Column-level constraints |
-| `relationships` | DV Silver | `silver/schema.yml` | Link→Hub hash key integrity |
-| `relationships` | 3NF Silver | `silver/schema.yml` | Fact→Dim hard FK constraints |
-| `relationships` | SS Silver | `silver/schema.yml` | Fact→Dim surrogate key integrity |
-| Singular | Data Vault | `assert_no_orphan_orders_dv.sql` | No orphan link orders |
-| Singular | Inmon 3NF | `assert_3nf_referential_integrity.sql` | No orphan natural FKs |
-| Singular | Star Schema | `assert_star_fact_no_orphan_keys.sql` | No orphan surrogate keys |
+| `relationships` | DV Silver | `exercise/silver/schema.yml` | Link→Hub hash key integrity |
+| `relationships` | 3NF Silver | `exercise/silver/schema.yml` | Fact→Dim hard FK constraints |
+| `relationships` | SS Silver | `exercise/silver/schema.yml` | Fact→Dim surrogate key integrity |
+| Singular | Data Vault | `tests/solution/assert_no_orphan_orders_dv.sql` | No orphan link orders |
+| Singular | Inmon 3NF | `tests/solution/assert_3nf_referential_integrity.sql` | No orphan natural FKs |
+| Singular | Star Schema | `tests/solution/assert_star_fact_no_orphan_keys.sql` | No orphan surrogate keys |
 
 ---
 
-## 🛠️ DuckDB Schemas Created
+## DuckDB Schemas Created
 
 | Schema | Architecture | Layer | Content |
 |---|---|---|---|
