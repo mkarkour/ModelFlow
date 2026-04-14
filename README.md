@@ -15,8 +15,8 @@ seeds/ (raw_customers, raw_products, raw_orders, raw_shipments)
                       └──► Gold (Tables): Business-ready outputs
 
 Three parallel paths from the same Bronze source:
-  ├── DataVault/   → Hubs  → Links  → Satellites  → Business Vault
-  ├── Inmon3NF/   → 3NF Entities → CDW Fact      → Reporting Aggregations
+  ├── DataVault/  → Hubs + Links + Satellites     → Business Vault
+  ├── Inmon3NF/   → 3NF Entities → CDW Fact       → Reporting Aggregations
   └── StarSchema/ → SCD2 Dims + Date → Fact Sales → BI Marts
 
 Each architecture has two subfolders controlled by DBT_MODE:
