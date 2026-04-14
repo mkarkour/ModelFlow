@@ -83,27 +83,24 @@ models:
         data_tests:
           - not_null
           - relationships:
-              arguments:
-                to: ref('dim_customer_scd2')
-                field: customer_sk
+              to: ref('dim_customer_scd2')
+              field: customer_sk
       - name: product_sk
         description: "FK → dim_product_scd2.product_sk."
         data_type: varchar
         data_tests:
           - not_null
           - relationships:
-              arguments:
-                to: ref('dim_product_scd2')
-                field: product_sk
+              to: ref('dim_product_scd2')
+              field: product_sk
       - name: order_date_key
         description: "FK → dim_date.date_key."
         data_type: integer
         data_tests:
           - not_null
           - relationships:
-              arguments:
-                to: ref('dim_date')
-                field: date_key
+              to: ref('dim_date')
+              field: date_key
       - name: gross_revenue
         data_type: double
         data_tests: [not_null]
