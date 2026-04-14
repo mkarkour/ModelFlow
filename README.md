@@ -16,6 +16,7 @@ seeds/ (raw_customers, raw_products, raw_orders, raw_shipments)
 
 Three parallel paths from the same Bronze source:
   ├── DataVault/  → Hubs + Links + Satellites     → Business Vault
+  │                  *(Note: frameworks like datavault4dbt and automateDV can be used on enterprise backends, but do not support DuckDB)*
   ├── Inmon3NF/   → 3NF Entities → CDW Fact       → Reporting Aggregations
   └── StarSchema/ → SCD2 Dims + Date → Fact Sales → BI Marts
 

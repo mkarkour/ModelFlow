@@ -141,12 +141,21 @@ erDiagram
     }
 ```
 
-**Key design constraints enforced by tests**:
-- Hash keys are deterministic: recomputing `md5(cust_id)` always equals the stored `hk_customer` (`test_hash_key_determinism`)
-- Satellites never have two records for the same key on the same load date (`test_satellite_no_duplicate_load`)
-- No orphan orders in `link_order` (`assert_no_orphan_orders_dv`)
+---
+
+#### 🛠️ Data Vault Frameworks & Automation
+
+While this workshop uses manual dbt SQL and custom macros to build the Data Vault, in production environments you may consider using specialized dbt packages to automate the generation of Hubs, Links, and Satellites:
+
+- **[datavault4dbt](https://github.com/datavault4dbt/datavault4dbt)**: A comprehensive framework for Data Vault 2.0 on dbt.
+- **[automateDV](https://automatedv.readthedocs.io/)**: (Formerly *dbtvault*) Focuses on automating the Raw Vault and some Business Vault structures.
+
+> [!IMPORTANT]
+> Currently, these frameworks primarily support enterprise backends like **Snowflake, BigQuery, and Databricks**. 
+> **DuckDB is not natively supported** by these frameworks at this time. This is why we implement the logic manually in this workshop using custom macros (`hash_key.sql`, `hash_diff.sql`), giving you full visibility into the underlying DV2.0 logic.
 
 ---
+
 
 ### Inmon 3NF (Corporate Data Warehouse)
 
