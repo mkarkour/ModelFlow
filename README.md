@@ -44,7 +44,7 @@ Ensure the following tools are installed before proceeding:
 ### Step 0 — Clone the repository
 
 ```bash
-git clone git@code.euranova.eu:data-modeling-workshop/modelflow.git
+git clone ../ModelFlow.git
 cd ModelFlow
 ```
 
