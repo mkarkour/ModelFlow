@@ -82,6 +82,15 @@ dbt debug --profiles-dir .
 > [!IMPORTANT]
 > Run `dbt debug` before anything else to confirm that dbt can locate the profile and connect to DuckDB. Fix any reported issues before proceeding.
 
+> [!NOTE]
+> **Why the `--profiles-dir .` flag?**
+> By default, dbt looks for connection settings in your global `~/.dbt/` folder. This flag forces dbt to use the **local `profiles.yml`** located in this project's root directory. 
+> 
+> This setup ensures:
+> * **Portability:** Seamless connection to the local DuckDB database (`data/modelflow.duckdb`) without manual configuration.
+> * **Isolation:** Workshop settings won't interfere with your other dbt projects.
+> * **Consistency:** Everyone uses the exact same connection logic regardless of their local machine setup.
+
 ### Step 4 — Install dbt packages
 
 ```bash
