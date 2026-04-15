@@ -56,22 +56,7 @@ uv sync
 source .venv/bin/activate
 ```
 
-### Step 2 — Verify the dbt connection
-
-```bash
-dbt debug --profiles-dir .
-```
-
-> [!IMPORTANT]
-> Run `dbt debug` before anything else to confirm that dbt can locate the profile and connect to DuckDB. Fix any reported issues before proceeding.
-
-### Step 3 — Install dbt packages
-
-```bash
-dbt deps --profiles-dir .
-```
-
-### Step 4 — Generate synthetic data
+### Step 2 — Generate synthetic data
 
 ```bash
 # Option A: Run the Jupyter Notebook interactively
@@ -87,6 +72,22 @@ This generates:
 - `seeds/raw_orders.csv` — 2,000 orders
 - `seeds/raw_shipments.csv` — ~1,500 shipments
 - `data/modelflow.duckdb` — DuckDB database with bronze tables
+
+### Step 3 — Verify the dbt connection
+
+```bash
+dbt debug --profiles-dir .
+```
+
+> [!IMPORTANT]
+> Run `dbt debug` before anything else to confirm that dbt can locate the profile and connect to DuckDB. Fix any reported issues before proceeding.
+
+### Step 4 — Install dbt packages
+
+```bash
+dbt deps --profiles-dir .
+```
+
 
 ### Step 5 — Load seeds into DuckDB
 
