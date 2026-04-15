@@ -350,6 +350,11 @@ ModelFlow/
 │       ├── exercise/snap_ss_dim_customer.sql
 │       └── solution/snap_ss_dim_customer.sql
 ├── tests/                          # dbt data tests
+│   ├── exercise/                   ← your work
+│   │   └── generic/                
+│   │       ├── test_custom_check.sql
+│   │       ├── assert_custom_test.sql
+│   │       └── tests.yml
 │   └── solution/                  # Singular & generic reference tests
 │       ├── assert_no_orphan_orders_dv.sql
 │       ├── assert_3nf_referential_integrity.sql
