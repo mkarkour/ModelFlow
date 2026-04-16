@@ -7,32 +7,90 @@ This cheatsheet covers essential dbt commands and provides an overview of the st
 ## 🛠️ Core dbt Commands
 
 ### Project Setup & Verification
-**`dbt init`**: Initialises a new dbt project[cite: 3].
-**`dbt debug`**: Verifies your configuration and data warehouse connection[cite: 5].
-**`dbt deps`**: Installs packages listed in packages.yml[cite: 36].
+
+**`dbt init`**
+Scaffolds a new dbt project by creating the standard folder structure (`models/`, `seeds/`, `tests/`, etc.) and prompting you to configure your data warehouse connection. Run this once when starting a new project.
+
+**`dbt debug`**
+Validates that your `profiles.yml` connection settings are correct and that dbt can reach your data warehouse. Run this first when setting up a new environment or troubleshooting connection issues.
+
+**`dbt deps`**
+Downloads and installs all external packages listed in your `packages.yml` file (e.g., `dbt-utils`, `dbt-expectations`). Run this after cloning a project or adding a new package dependency.
+
+---
 
 ### Execution & Compilation
-**`dbt run`**: Executes models (transforms them into tables/views in the data warehouse)[cite: 7].
-**`dbt compile`**: Compiles models into raw SQL without executing them (useful for debugging)[cite: 9].
-**`dbt build`**: Does it all: run + test + snapshot + seed + freshness (recommended for prod)[cite: 18].
-**`dbt run-operation <macro_name>`**: Executes a Jinja macro outside of a model[cite: 38].
+**`dbt run`**
+Executes your dbt models: compiles each `.sql` file into warehouse-ready SQL and runs it, materializing the results as tables or views in your data warehouse. By default, runs all models. Use selectors to target specific ones:
+```bash
+dbt run --select staging        # run all models in the staging folder
+dbt run --select my_model+      # run my_model and all its downstream dependents
+dbt run --select +my_model      # run my_model and all its upstream dependencies
+```
+
+**`dbt compile`**
+Compiles your Jinja-templated SQL models into pure SQL and writes them to the `target/compiled/` folder — without executing anything in the warehouse. Use this to preview the SQL dbt will generate, debug Jinja logic, or inspect `ref()` resolutions before a run.
+
+**`dbt build`**
+The recommended command for production runs. Executes the full pipeline in dependency order: seeds → snapshots → models → tests. If a model fails its tests, downstream models are automatically skipped. This is the single command that handles everything.
+
+**`dbt run-operation <macro_name>`**
+Calls a Jinja macro directly from the command line, outside the context of a model run. Useful for running admin tasks, warehouse operations, or utility macros (e.g., dropping schemas, granting permissions).
+```bash
+dbt run-operation grant_access --args '{"role": "analyst"}'
+```
+
+---
 
 ### Testing & Quality
-**`dbt test`**: Runs tests (built-in and custom) on your models[cite: 20].
+
+**`dbt test`**
+Runs all tests defined in your project — both schema tests declared in `.yml` files (e.g., `not_null`, `unique`, `accepted_values`, `relationships`) and custom SQL tests in the `tests/` folder. A test fails if the SQL query returns any rows.
+```bash
+dbt test --select my_model      # test a specific model only
+dbt test --store-failures       # persist failing rows to the warehouse for inspection
+```
+
+---
 
 ### Data Loading & State Management
-**`dbt seed`**: Loads CSV files (from the seed folder) as tables into the data warehouse[cite: 22].
-**`dbt snapshot`**: Captures changes in data over time (row-level versioning)[cite: 24].
+**`dbt seed`**
+Reads CSV files from the `seeds/` directory and loads them as tables into your data warehouse. Designed for small, static reference datasets like country codes, currency mappings, or status lookup tables. Not intended for large or frequently changing data.
+
+**`dbt snapshot`**
+Runs your snapshot definitions to capture row-level changes in source tables over time. Each execution compares the current state of a source table against the previously recorded state and stamps rows with `dbt_valid_from` / `dbt_valid_to` timestamps. This is dbt's built-in mechanism for building **Type 2 Slowly Changing Dimensions (SCD2)**.
+
+---
 
 ### Documentation
-**`dbt docs generate`**: Generates HTML documentation for your models[cite: 32].
-**`dbt docs serve`**: Serves the documentation locally in a browser (localhost:8000 by default)[cite: 34].
+
+**`dbt docs generate`**
+Reads your model definitions, schema `.yml` files, and run artifacts to generate a static documentation site in the `target/` folder. The site includes a full data lineage graph (DAG) showing how models depend on each other.
+
+**`dbt docs serve`**
+Launches a local web server (at `http://localhost:8080` by default) to browse the generated documentation in your browser. Requires `dbt docs generate` to have been run first.
 
 ---
 
 ## 📁 Standard dbt Project Structure
 
-When you initialize a dbt project, it creates a specific directory structure. Here is what each folder and key file does:
+Running `dbt init` produces this layout. Each directory has a specific role — understanding them helps you know where to put your work.
+
+```
+my_dbt_project/
+├── models/
+│   ├── examples/       ← example models with 2 models & a schema yml file
+├── seeds/
+├── tests/
+├── macros/
+├── snapshots/
+├── analyses/
+├── target/             ← auto-generated, gitignored
+├── dbt_project.yml
+└── packages.yml
+```
+
+---
 
 ### Key Directories
 * **`models/`**: The core of your project. This is where your SQL (or Python) transformation files live. Models are typically organized into subfolders like `staging` (raw data preparation), `intermediate` (reusable logical blocks), and `marts` (business-ready data).
@@ -43,7 +101,23 @@ When you initialize a dbt project, it creates a specific directory structure. He
 * **`analyses/`**: Stores analytical SQL queries that you want dbt to compile (so you can use Jinja and references) but *not* execute or materialize in the data warehouse. Useful for ad-hoc analysis or training models.
 * **`target/`**: An auto-generated directory (ignored by version control) where dbt outputs compiled SQL files and execution artifacts (like `run_results.json` and `manifest.json`) when you run commands.
 
+---
+
 ### Key Configuration Files
-* **`dbt_project.yml`**: The main configuration file for your project. It defines the project name, version, default materializations (e.g., table vs. view), and directory paths.
-* **`packages.yml`** *(optional)*: Specifies dependencies on external dbt packages (like `dbt-utils` or `dbt-expectations`). 
-* **`profiles.yml`**: Located locally on your machine (usually in `~/.dbt/`), this file contains the sensitive connection credentials and warehouse target environments (e.g., `dev` or `prod`).
+
+**`dbt_project.yml`**
+The main configuration file for your project. Defines the project name, dbt version, folder paths, and default materialization strategies per model folder (e.g., "all models in `staging/` should be views; all models in `marts/` should be tables"). Every dbt project must have this file.
+
+**`packages.yml`** *(optional)*
+Lists external dbt package dependencies, similar to a `requirements.txt`. Packages are pulled from the dbt Hub or directly from Git. Run `dbt deps` after adding or updating entries here. (This file could also be called `dependencies.yml`)
+```yaml
+packages:
+  - package: dbt-labs/dbt_utils
+    version: 1.1.1
+```
+
+**`profiles.yml`** *(stored locally, never committed)*
+Contains your warehouse connection credentials and target environments (`dev`, `prod`). Lives at `~/.dbt/profiles.yml` on your local machine — outside the project repo — so credentials are never accidentally committed to version control. Each named profile maps to a warehouse type (Snowflake, BigQuery, Redshift, etc.) and its connection parameters.
+
+---
+
