@@ -1,7 +1,11 @@
 /* EXERCISE: Implement a Data Vault Link for Orders.
-   
-   PATH: models/DataVault/exercise/silver/link_order.sql
-   
+
+   PURPOSE:
+   Used to record the transactional relationship between a Customer, a Product,
+   and an Order in the Raw Vault. Stores only hash keys (hk_order_link,
+   hk_order, hk_customer, hk_product) and the natural order_id — no descriptive
+   data. The order satellite attaches context to each link row via hk_order_link.
+
    HINTS:
    1. Capture the transaction relationship between customer, product, and order.
    2. Select from {{ ref('bronze_dv_stg_orders') }}.

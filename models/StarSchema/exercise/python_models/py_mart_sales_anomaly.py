@@ -1,5 +1,12 @@
 """EXERCISE: Star Schema Gold — Monthly Sales Anomaly Detection (Python Model).
 
+PURPOSE:
+Used to automatically flag months where a product category's revenue deviates
+significantly from its recent trend. Aggregates fact data into monthly category
+totals and applies a 3-month rolling mean ± 2 standard deviations to identify
+outliers. Gives business stakeholders an early-warning signal for unusual sales
+patterns without manual review.
+
 HINTS:
 1. Fetch DataFrames: Use `dbt.ref("...").df()` to pull in `fact_sales`, `dim_product_scd2`, and `dim_date`.
 2. Filter: Remove "Cancelled" orders from the fact table.

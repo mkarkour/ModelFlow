@@ -1,5 +1,12 @@
 /* EXERCISE: Inmon 3NF Silver - Order Fact (3NF CDW)
-   
+
+   PURPOSE:
+   Central normalized fact table in the Inmon CDW at order grain. Stores only
+   foreign keys (cust_id, prod_id) and computed measures — no customer names or
+   product descriptions here, in strict adherence to 3NF. Joins dim_product_3nf
+   to retrieve price and cost for calculating revenue, total cost, and gross
+   margin. Gold reports join this fact back to dimension entities at query time.
+
    HINTS:
    1. The grain is one row per order line. Select from `bronze_3nf_stg_orders`.
    2. Enrich with product cost/price by joining `dim_product_3nf` on `prod_id` (so you can compute revenue).

@@ -1,5 +1,12 @@
 /* EXERCISE: Create a Data Vault Silver Satellite for order details (context on the link).
-   
+
+   PURPOSE:
+   Used to store transactional attributes (order_date, quantity, discount,
+   status, channel, payment_method) that describe each relationship recorded in
+   the Order Link. Keyed by hk_order_link and holds the latest record per link
+   row. Consumed by the Business Vault sales summary to reconstitute full order
+   context.
+
    HINTS:
    1. Select from {{ ref('bronze_dv_stg_orders') }}
    2. Similar to sat_customer_details, select the latest record, but partition by hk_order_link.

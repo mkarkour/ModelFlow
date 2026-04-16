@@ -1,7 +1,12 @@
 /* EXERCISE: Implement a Data Vault Satellite for product details.
-   
-   PATH: models/DataVault/exercise/silver/sat_product_details.sql
-   
+
+   PURPOSE:
+   Data Vault Satellite that stores descriptive product attributes (name, category,
+   subcategory, price, cost, sku, is_active) linked to the Product Hub via
+   hk_product. Selecting only the latest record per product (via window function)
+   reflects the current product state used downstream in Business Vault and gold
+   sales summary models.
+
    HINTS:
    1. Select from {{ ref('bronze_dv_stg_products') }}.
    2. Select the latest record per hk_product to capture the most recent state.

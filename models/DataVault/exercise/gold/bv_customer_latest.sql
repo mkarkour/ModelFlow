@@ -1,5 +1,11 @@
 /* EXERCISE: Create a Business Vault Gold model showing the latest customer view.
-   
+
+   PURPOSE:
+   Used to expose a single current-state row per customer by joining the Customer
+   Hub to its latest Satellite record. Provides a consumer-friendly view of
+   current customer data (identity + descriptors + dates) without requiring
+   downstream models to understand raw vault join patterns.
+
    HINTS:
    1. Join the Hub {{ ref('hub_customer') }} to the Satellite {{ ref('sat_customer_details') }}.
    2. Filter for the latest satellite record per hub key (use window function or cross reference with satellite logic if it already has latest).

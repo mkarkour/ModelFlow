@@ -1,5 +1,11 @@
 /* EXERCISE: Create a Data Vault Silver Satellite for customer details.
-   
+
+   PURPOSE:
+   Used to store the current descriptive attributes of each customer (name,
+   email, country, city, segment), linked to the Customer Hub via hk_customer.
+   Keeps the latest record per customer using a window function. Consumed by
+   Business Vault and gold models that need current customer descriptors.
+
    HINTS:
    1. Select from {{ ref('bronze_dv_stg_customers') }}
    2. Select the latest record per hk_customer.

@@ -1,7 +1,13 @@
 /* EXERCISE: Create the Data Vault Business Vault sales summary.
-   
-   PATH: models/DataVault/exercise/gold/bv_sales_summary.sql
-   
+
+   PURPOSE:
+   Business Vault gold model that assembles a complete sales transaction view
+   from the Raw Vault. Joins the Order Link to the three satellites (order,
+   customer, product) to reconstitute a flat, analyst-friendly row per
+   transaction with all descriptive context. Computes derived financial measures
+   (gross_revenue, total_cost) that the Raw Vault intentionally omits. This is
+   the main source consumed by the RFM segmentation Python model downstream.
+
    HINTS:
    1. Assemble data from {{ ref('link_order') }} and the Satellites.
    2. For each satellite, fetch the latest row (e.g., using row_number partitioned by the relevant hash key order by load_date desc).

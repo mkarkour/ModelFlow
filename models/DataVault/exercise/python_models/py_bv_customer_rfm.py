@@ -1,5 +1,12 @@
 """EXERCISE: Data Vault Gold — Customer RFM Segmentation (Python Model).
 
+PURPOSE:
+Used to segment customers by their purchasing behaviour using the RFM framework
+(Recency, Frequency, Monetary). Scores each customer on three dimensions via
+quartile binning and maps the combined score to named segments (Champion, Loyal,
+At Risk, etc.). Gives CRM and marketing teams a behavioural taxonomy derived
+directly from transaction history.
+
 HINTS:
 1. Fetch `bv_sales_summary`.
 2. Filter out "Cancelled" orders.

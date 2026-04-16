@@ -1,5 +1,12 @@
 /* EXERCISE: Star Schema Sales Fact Table.
-   
+
+   PURPOSE:
+   Central fact table of the Star Schema at order grain (one row per order).
+   Resolves natural keys to surrogate keys by joining the three dimensions
+   (customer, product, date), then stores all additive financial measures
+   (revenue, cost, margin) alongside semi-additive attributes. This table is
+   the primary source for all downstream gold aggregations and BI marts.
+
    HINTS:
    1. Grain: one row per order. Base this on `bronze_ss_stg_orders`.
    2. Join `dim_customer_scd2` on `cust_id` AND `is_current = true` to get the latest `customer_sk`.

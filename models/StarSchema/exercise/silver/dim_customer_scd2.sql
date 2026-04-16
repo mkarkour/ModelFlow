@@ -1,5 +1,12 @@
 /* EXERCISE: Implement an SCD Type 2 dimension for customers.
 
+   PURPOSE:
+   Used to track historical versions of customer records for point-in-time
+   analysis. Each row represents one version of a customer with valid_from /
+   valid_to date ranges and an is_current flag. The fact table joins this
+   dimension on customer_sk to retrieve the correct customer state at the time
+   of each order.
+
    HINTS:
    1. Select from `bronze_ss_stg_customers`.
    2. You need to create simulated history for customers whose `created_at` != `updated_at`.

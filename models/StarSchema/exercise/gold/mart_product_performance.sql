@@ -1,5 +1,11 @@
 /* EXERCISE: Create the final product performance mart.
-   
+
+   PURPOSE:
+   Used by product managers and category analysts to track monthly sales
+   performance per product. Aggregates fact data by product and month, exposing
+   volume (orders, units), revenue, cost, margin percentage, and channel mix.
+   Consumed directly by BI tools without additional joins.
+
    HINTS:
    1. Select from the silver sales fact and filter out any cancelled orders.
    2. Join the fact table with the current silver product dimension and the date dimension.

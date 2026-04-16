@@ -1,7 +1,11 @@
 /* EXERCISE: Implement a Data Vault Hub for Customers.
-   
-   PATH: models/DataVault/exercise/silver/hub_customer.sql
-   
+
+   PURPOSE:
+   Used to maintain the unique set of customer business keys (cust_id) ever seen
+   in the source system. Stores hk_customer, cust_id, and first-seen load
+   metadata — no descriptive attributes. All customer satellites and links
+   reference this hub via hk_customer.
+
    HINTS:
    1. Hubs store unique Business Keys.
    2. Select distinct hk_customer, cust_id, load_date, record_source from {{ ref('bronze_dv_stg_customers') }}.

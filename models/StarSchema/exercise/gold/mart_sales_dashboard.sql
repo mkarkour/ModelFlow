@@ -1,5 +1,12 @@
 /* EXERCISE: Create a denormalized Sales Mart for BI dashboards.
-   
+
+   PURPOSE:
+   Wide, denormalized gold mart optimized for BI tools such as Tableau or Power
+   BI. Joins all three dimensions (customer, product, date) to the fact table and
+   flattens every descriptive attribute into a single row per order. Analysts can
+   build any report — by customer, product, channel, or time period — without
+   needing to write any SQL joins themselves.
+
    HINTS:
    1. Select from the fact_sales model and filter out cancelled orders.
    2. Join with the current active records of the customer dimension and product dimension using Surrogate Keys.

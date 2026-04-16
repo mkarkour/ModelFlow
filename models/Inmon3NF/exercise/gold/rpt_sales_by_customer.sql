@@ -1,5 +1,11 @@
 /* EXERCISE: Inmon 3NF Gold - Sales by Customer Report
-   
+
+   PURPOSE:
+   Used to report lifetime sales activity aggregated per customer. Joins the
+   normalized order fact to the customer entity and surfaces order count, units
+   sold, revenue, cost, margin, and order date range. Consumed by sales and CRM
+   teams to evaluate individual customer performance.
+
    HINTS:
    1. Filter out 'Cancelled' orders from `fact_order_3nf`.
    2. Grab `dim_customer_3nf`.

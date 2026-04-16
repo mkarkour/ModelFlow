@@ -1,5 +1,13 @@
 /* EXERCISE: Create a Data Vault staging model for orders.
-   
+
+   PURPOSE:
+   Data Vault staging layer for order records. Produces three hub hash keys
+   (hk_order, hk_customer, hk_product) and one composite link hash key
+   (hk_order_link) that captures the three-way relationship between an order,
+   its customer, and its product. Also computes a hash_diff over order descriptors
+   for change detection in the order satellite. This single staging model feeds
+   the order Hub, the Link, and the order Satellite.
+
    HINTS:
    1. Select from {{ ref('raw_orders') }}
    2. Cast keys: order_id, cust_id, prod_id to integer.

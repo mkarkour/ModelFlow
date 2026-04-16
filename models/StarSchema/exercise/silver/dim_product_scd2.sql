@@ -1,5 +1,11 @@
 /* EXERCISE: Create a Star Schema SCD Type 2 product dimension.
-   
+
+   PURPOSE:
+   SCD Type 2 product dimension for the Star Schema. Represents a single active
+   version per product (simplified — no real history generated) with hardcoded
+   temporal columns and a surrogate key. The surrogate key (product_sk) is what
+   the fact table uses to join, decoupling facts from raw product IDs.
+
    HINTS:
    1. Select from `bronze_ss_stg_products`.
    2. We are simulating a single active version per product for simplicity.

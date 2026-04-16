@@ -1,5 +1,12 @@
 /* EXERCISE: Inmon 3NF Gold - Sales by Product Report
-   
+
+   PURPOSE:
+   Product performance gold report for the Inmon CDW. Joins the normalized order
+   fact to the product entity and aggregates total orders, units sold, revenue,
+   cost, gross margin, and margin percentage per product. Also captures first and
+   last sale dates for shelf-life analysis. Intended for merchandising and
+   category management reporting.
+
    HINTS:
    1. Filter out 'Cancelled' orders from `fact_order_3nf`.
    2. Grab `dim_product_3nf`.

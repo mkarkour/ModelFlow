@@ -1,5 +1,11 @@
 """EXERCISE: Inmon 3NF Gold — Customer Lifetime Value Analysis (Python Model).
 
+PURPOSE:
+Used to score and segment customers by their lifetime value to the business.
+Computes purchase frequency, projected annual value, and total revenue per
+customer, then assigns each to a High / Medium / Low CLV tier. Gives the
+marketing team a prioritization framework for retention and upsell campaigns.
+
 HINTS:
 1. Fetch `dim_customer_3nf` and `fact_order_3nf`.
 2. Filter out "Cancelled" orders from the fact.

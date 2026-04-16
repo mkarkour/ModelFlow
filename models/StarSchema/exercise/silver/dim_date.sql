@@ -1,5 +1,11 @@
 /* EXERCISE: Create a Date Dimension table for the Star Schema.
-   
+
+   PURPOSE:
+   Shared calendar reference table that the fact table and gold marts join to
+   slice sales data by time periods. Provides one row per day between 2023 and
+   2026 with rich attributes (year, quarter, month, week, day flags, is_weekend).
+   Used as the time axis for any date-based filtering or grouping in BI dashboards.
+
    HINTS:
    1. Use the `dbt_utils.date_spine` macro to generate a series of dates.
       - set `datepart` to `'day'`

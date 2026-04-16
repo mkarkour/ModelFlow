@@ -1,6 +1,6 @@
 # 🏭 Data Vault 2.0 at Scale (Enterprise Note)
 
-While this workshop uses custom macros to implement Data Vault on DuckDB, enterprise environments (Snowflake, BigQuery, Snowflake, etc.) typically leverage robust, specialized dbt packages.
+While this workshop uses custom macros to implement Data Vault on DuckDB, enterprise environments (Snowflake, BigQuery, Databricks, etc.) typically leverage robust, specialized dbt packages.
 
 ### 📦 Recommended Packages
 
