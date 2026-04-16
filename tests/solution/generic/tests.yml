@@ -6,21 +6,52 @@ macros:
       Verify that recomputing the hash key on the business key column(s) always yields the
       same stored hash key value. A failing test indicates non-deterministic hashing or data
       corruption between staging and the Hub/Link layers in Data Vault.
+    arguments:
+      - name: model
+        type: relation
+        description: The model being tested.
+      - name: column_name
+        type: string
+        description: The stored hash key column to validate.
+      - name: business_key
+        type: string
+        description: The business key column used to recompute the expected hash.
 
   - name: no_transitive_dependency
     description: >
       Verify that a fact table does not contain descriptive attributes that belong to a
       referenced dimension. In a true 3NF design, facts hold only keys and measures. This
       test ensures there are no redundant dimension attributes (transitive dependency violations).
+    arguments:
+      - name: model
+        type: relation
+        description: The model being tested.
+      - name: column_name
+        type: string
+        description: The primary key column of the fact table (used for context).
 
   - name: satellite_no_duplicate_load
     description: >
       Ensure that a satellite table never contains two records with the same hash key and
       load date. Duplicate loads indicate a broken idempotency contract in the loading
       process of the Data Vault architecture.
+    arguments:
+      - name: model
+        type: relation
+        description: The model being tested.
+      - name: column_name
+        type: string
+        description: The hash key column to check for duplicates (grouped with load_date).
 
   - name: scd2_no_gap_no_overlap
     description: >
       Verify that SCD Type 2 dimension rows for each business key have continuous, non-overlapping
       validity ranges. This test ensures there are no gaps between versions and no intersecting
       validity windows for the same entity in Star Schema architectures.
+    arguments:
+      - name: model
+        type: relation
+        description: The model being tested.
+      - name: column_name
+        type: string
+        description: The business key column to partition versions by (e.g. cust_id).

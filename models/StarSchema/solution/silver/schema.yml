@@ -15,7 +15,9 @@ models:
       - name: cust_id
         description: "Natural/business key — NOT unique (multiple versions can exist)."
         data_type: integer
-        data_tests: [not_null]
+        data_tests:
+          - not_null
+          - scd2_no_gap_no_overlap
       - name: valid_from
         data_type: timestamp
         data_tests: [not_null]

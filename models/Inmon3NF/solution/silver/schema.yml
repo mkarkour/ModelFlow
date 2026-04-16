@@ -53,6 +53,9 @@ models:
       natural keys (not surrogates). The `relationships` data_tests below enforce
       **hard referential integrity** — a hallmark of Inmon CDW architecture.
       Contrast with Data Vault, where referential integrity is soft/hash-based.
+    data_tests:
+      - no_transitive_dependency:
+          column_name: order_id
     columns:
       - name: order_id
         data_type: integer

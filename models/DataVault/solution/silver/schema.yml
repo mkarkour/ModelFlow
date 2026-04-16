@@ -11,7 +11,11 @@ models:
       - name: hk_customer
         description: "MD5 hash key of cust_id. Primary key of the Hub."
         data_type: varchar
-        data_tests: [not_null, unique]
+        data_tests:
+          - not_null
+          - unique
+          - hash_key_determinism:
+              business_key: cust_id
       - name: cust_id
         description: "Customer business key (natural key from source)."
         data_type: integer
@@ -79,6 +83,7 @@ models:
           - relationships:
               to: ref('hub_customer')
               field: hk_customer
+          - satellite_no_duplicate_load
       - name: hash_diff
         data_type: varchar
         data_tests: [not_null]
