@@ -60,10 +60,10 @@ source .venv/bin/activate
 
 ```bash
 # Option A: Run the Jupyter Notebook interactively
-jupyter notebook data_factory_init.ipynb
+uv run jupyter notebook data_factory_init.ipynb
 
 # Option B: Execute non-interactively
-jupyter nbconvert --to notebook --execute data_factory_init.ipynb
+uv run jupyter nbconvert --to notebook --execute data_factory_init.ipynb
 ```
 
 This generates:
@@ -76,7 +76,7 @@ This generates:
 ### Step 3 — Verify the dbt connection
 
 ```bash
-dbt debug --profiles-dir .
+uv run dbt debug --profiles-dir .
 ```
 
 > [!IMPORTANT]
@@ -94,14 +94,13 @@ dbt debug --profiles-dir .
 ### Step 4 — Install dbt packages
 
 ```bash
-dbt deps --profiles-dir .
+uv run dbt deps --profiles-dir .
 ```
-
 
 ### Step 5 — Load seeds into DuckDB
 
 ```bash
-dbt seed --profiles-dir .
+uv run dbt seed --profiles-dir .
 ```
 
 ### Step 6 — Choose your interaction mode
@@ -124,7 +123,7 @@ echo ${DBT_MODE:-exercise}
 or
 
 ```bash
-dbt run-operation check_mode --profiles-dir .
+uv run dbt run-operation check_mode --profiles-dir .
 ```
 
 > [!TIP]
@@ -169,23 +168,23 @@ Run only the model you just wrote, then its tests:
 
 ```bash
 # Build a single model (run + test in one command)
-dbt build --select <model_name> --profiles-dir .
+uv run dbt build --select <model_name> --profiles-dir .
 
 # Or separately
-dbt run  --select <model_name> --profiles-dir .
-dbt test --select <model_name> --profiles-dir .
+uv run dbt run  --select <model_name> --profiles-dir .
+uv run dbt test --select <model_name> --profiles-dir .
 ```
 
 To build an entire layer at once:
 
 ```bash
-dbt build --select DataVault.exercise.silver --profiles-dir .
+uv run dbt build --select DataVault.exercise.silver --profiles-dir .
 ```
 
 To build a model **and all its upstream dependencies**:
 
 ```bash
-dbt build --select +<model_name> --profiles-dir .
+uv run dbt build --select +<model_name> --profiles-dir .
 ```
 
 > [!TIP]
@@ -196,7 +195,7 @@ dbt build --select +<model_name> --profiles-dir .
 Open the [Results Viewer notebook](models/modeling_results_viewer.ipynb) to preview the data produced by your model and compare it against the expected ERD:
 
 ```bash
-jupyter notebook models/modeling_results_viewer.ipynb
+uv run jupyter notebook models/modeling_results_viewer.ipynb
 ```
 
 Run the cell for the model you just built. If the output looks correct, move on to the next model in the layer. If something is off, go back to step 2.
@@ -221,8 +220,8 @@ Run the cell for the model you just built. If the output looks correct, move on 
 ### Step 7 — Generate & browse lineage docs
 
 ```bash
-dbt docs generate --profiles-dir .
-dbt docs serve --profiles-dir .
+uv run dbt docs generate --profiles-dir .
+uv run dbt docs serve --profiles-dir .
 # Open http://localhost:8080 → navigate the DAG
 ```
 
