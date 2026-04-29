@@ -14,13 +14,21 @@
    4. Include load_date() and 'seeds.raw_products' as record_source.
 */
 
--- Your code here:
 with source as (
-    -- select ...
+    -- TODO: Select all columns from {{ ref('raw_products') }}
+    -- YOUR CODE HERE
 ),
 
 staged as (
-    -- select ...
+    -- TODO: Cast IDs and generate the hk_product Hash Key
+    -- TODO: Clean string attributes (trimming and casing)
+    -- TODO: Cast price, cost, and is_active to proper types
+    -- TODO: Generate the hash_diff for change detection
+    -- TODO: Add load_date and record_source metadata
+    -- YOUR CODE HERE
 )
 
-select * from staged
+select
+    -- TODO: Select all columns from the staged CTE
+    -- YOUR CODE HERE
+from staged

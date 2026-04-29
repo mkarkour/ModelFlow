@@ -14,16 +14,18 @@
    4. Select hk_product, hash_diff, product_name, category, subcategory, price, cost, sku, is_active, load_date, record_source.
 */
 
--- Your code here:
-with source_data as (
-    -- select ...
+with source as (
+    -- TODO: Select from {{ ref('bronze_dv_stg_products') }}
+    -- YOUR CODE HERE
 ),
 
 latest_records as (
-    -- select ...
+    -- TODO: Select hk_product, hash_diff, product_name, category, price, etc.
+    -- TODO: Calculate row_num to find the latest record
+    -- YOUR CODE HERE
 )
 
 select
-    -- ...
+    -- TODO: Select columns and filter for row_num = 1
+    -- YOUR CODE HERE
 from latest_records
--- where ...

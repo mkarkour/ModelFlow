@@ -12,8 +12,7 @@
    3. Get the first load date (min) and the first record_source (min).
 */
 
--- Your code here:
-with source_data as (
+with source as (
     -- select ...
 ),
 

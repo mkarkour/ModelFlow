@@ -13,20 +13,26 @@
    4. Output Hub keys (hk_customer, cust_id), Satellite descriptors (cust_name, etc.), and Dates (first_seen_date from hub and last_updated_date from sat).
 */
 
--- Your code here:
 with hub as (
-    -- select * from {{ ref('hub_customer') }}
+    -- TODO: Select all columns from {{ ref('hub_customer') }}
+    -- YOUR CODE HERE
 ),
 
 sat as (
-    -- select * from {{ ref('sat_customer_details') }}
+    -- TODO: Select all columns from {{ ref('sat_customer_details') }}
+    -- YOUR CODE HERE
 ),
 
 latest_sat as (
-    -- select ..., row_number() over (partition by hk_customer order by load_date desc) as rn
-)
+    -- TODO: Use row_number() over hk_customer ordered by load_date desc
+    -- TODO: This ensures we only join to the most recent descriptive record
+    -- YOUR CODE HERE
+),
 
 select
-    -- ...
+    -- TODO: Select hk_customer and cust_id from the Hub
+    -- TODO: Select descriptive attributes (name, email, etc.) from the Satellite
+    -- TODO: Map the different load_dates to first_seen_date and last_updated_date
+    -- YOUR CODE HERE
 from hub h
--- left join latest_sat s on ...
+-- TODO: Left join latest_sat on hk_customer where row number is 1

@@ -14,16 +14,18 @@
    4. Include descriptive attributes: order_date, quantity, discount_pct, order_status, channel, payment_method.
 */
 
--- Your code here:
-with source_data as (
-    -- select ...
+with source as (
+    -- TODO: Select from {{ ref('bronze_dv_stg_orders') }}
+    -- YOUR CODE HERE
 ),
 
 latest_records as (
-    -- select ...
+    -- TODO: Partition by hk_order_link and order by load_date descending
+    -- TODO: Select order metrics (quantity, discount) and status fields
+    -- YOUR CODE HERE
 )
 
 select
-    -- ...
+    -- TODO: Select columns and filter for the latest record (row_num = 1)
+    -- YOUR CODE HERE
 from latest_records
--- where row_num = 1

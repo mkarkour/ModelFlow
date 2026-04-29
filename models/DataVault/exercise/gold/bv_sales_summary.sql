@@ -15,29 +15,37 @@
    4. Compute derived metrics: `gross_revenue` and `total_cost`.
 */
 
--- Your code here:
 with link as (
-    -- select * from {{ ref('link_order') }}
+    -- TODO: Select all columns from {{ ref('link_order') }}
+    -- YOUR CODE HERE
 ),
 
 sat_order as (
-    -- select ... from {{ ref('sat_order_details') }} where latest
+    -- TODO: Select latest record from {{ ref('sat_order_details') }} 
+    -- partition by hk_order_link order by load_date desc
+    -- YOUR CODE HERE
 ),
 
 sat_customer as (
-    -- select ... from {{ ref('sat_customer_details') }} where latest
+    -- TODO: Select latest record from {{ ref('sat_customer_details') }}
+    -- partition by hk_customer order by load_date desc
+    -- YOUR CODE HERE
 ),
 
 sat_product as (
-    -- select ... from {{ ref('sat_product_details') }} where latest
+    -- TODO: Select latest record from {{ ref('sat_product_details') }}
+    -- partition by hk_product order by load_date desc
+    -- YOUR CODE HERE
 ),
 
 assembled as (
-    -- select ...
-    -- from link l
-    -- left join sat_order so on ...
-    -- left join sat_customer sc on ...
-    -- left join sat_product sp on ...
+    -- TODO: Join link 'l' to sat_order 'so', sat_customer 'sc', and sat_product 'sp'
+    -- TODO: Select keys, descriptive attributes, and order metrics
+    -- TODO: Compute gross_revenue and total_cost with rounding
+    -- YOUR CODE HERE
 )
 
-select * from assembled
+select
+    -- TODO: Select all columns from the assembled CTE
+    -- YOUR CODE HERE
+from assembled

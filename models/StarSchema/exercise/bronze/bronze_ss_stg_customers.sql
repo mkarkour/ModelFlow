@@ -12,4 +12,20 @@
    4. Include temporal columns needed for SCD2 tracking downstream
 */
 
--- YOUR CODE HERE
+with source as (
+    -- TODO: Select all columns from {{ ref('raw_customers') }}
+    -- YOUR CODE HERE
+),
+
+staged as (
+    -- TODO: Cast cust_id to integer and date fields to date
+    -- TODO: Clean and rename string fields (name, country, city, segment)
+    -- TODO: Format email by trimming and converting to LOWER case
+    -- TODO: Include the {{ load_date() }} macro as _loaded_at
+    -- YOUR CODE HERE
+)
+
+select
+    -- TODO: Select all columns from the staged CTE
+    -- YOUR CODE HERE
+from staged

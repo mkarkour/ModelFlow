@@ -21,13 +21,22 @@
    6. Include load_date and record_source.
 */
 
--- Your code here:
 with source as (
-    -- select ...
+    -- TODO: Select all columns from {{ ref('raw_orders') }}
+    -- YOUR CODE HERE
 ),
 
 staged as (
-    -- select ...
+    -- TODO: Cast IDs and generate Hub Hash Keys
+    -- TODO: Generate the composite Link Hash Key (hk_order_link)
+    -- TODO: Cast dates and numeric metrics
+    -- TODO: Clean string attributes (status, channel, payment_method)
+    -- TODO: Generate hash_diff for all descriptive attributes
+    -- TODO: Add load_date and record_source metadata
+    -- YOUR CODE HERE
 )
 
-select * from staged
+select
+    -- TODO: Select all columns from the staged CTE
+    -- YOUR CODE HERE
+from staged

@@ -14,13 +14,21 @@
    5. Explicitly cast `cust_id` to integer, and dates to date.
 */
 
--- Your code here:
 with source as (
-    -- select ...
+    -- TODO: Select all columns from {{ ref('raw_customers') }}
+    -- YOUR CODE HERE
 ),
 
 staged as (
-    -- select ...
+    -- TODO: Cast cust_id and generate the hk_customer Hash Key
+    -- TODO: Trim descriptive attributes and lowercase the email
+    -- TODO: Cast timestamps to dates
+    -- TODO: Generate the hash_diff for change detection
+    -- TODO: Add load_date and record_source metadata
+    -- YOUR CODE HERE
 )
 
-select * from staged
+select
+    -- TODO: Select all columns from the staged CTE
+    -- YOUR CODE HERE
+from staged

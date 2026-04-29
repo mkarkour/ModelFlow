@@ -2,7 +2,7 @@
 -- Data Vault Silver: Sat Order Details
 -- Purpose : Descriptive attributes for Orders (Point in Time context).
 -- =============================================================================
-with source_data as (
+with source as (
     select * from {{ ref('bronze_dv_stg_orders') }}
 ),
 
@@ -19,7 +19,7 @@ latest_records as (
         load_date,
         record_source,
         row_number() over (partition by hk_order_link order by load_date desc) as row_num
-    from source_data
+    from source
 )
 
 select

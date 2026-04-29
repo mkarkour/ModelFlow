@@ -13,16 +13,19 @@
    4. The output must include the hash key, hash diff, descriptive fields, load_date, and record_source.
 */
 
--- Your code here:
-with source_data as (
-    -- select ...
+with source as (
+    -- TODO: Select all columns from {{ ref('bronze_dv_stg_customers') }}
+    -- YOUR CODE HERE
 ),
 
 latest_records as (
-    -- select ...
+    -- TODO: Select descriptive columns (name, email, country, city, segment)
+    -- TODO: Use row_number() over hk_customer ordered by load_date desc
+    -- YOUR CODE HERE
 )
 
 select
-    -- ...
+    -- TODO: Select all columns (excluding the row_number column)
+    -- TODO: Filter for row_num = 1
+    -- YOUR CODE HERE
 from latest_records
--- where row_num = 1

@@ -12,13 +12,19 @@
    3. Ensure you only keep the first occurrence of a business key if there are duplicates (e.g. min(load_date), min(record_source)) grouping by hk_customer and cust_id.
 */
 
--- Your code here:
-with source_data as (
-    -- select ...
+with source as (
+    -- TODO: Select all columns from {{ ref('bronze_dv_stg_customers') }}
+    -- YOUR CODE HERE
 ),
 
 hub_customer as (
-    -- select ...
+    -- TODO: Select hk_customer and cust_id
+    -- TODO: Use min() to find the earliest load_date and record_source
+    -- TODO: Group by the hash key and business key
+    -- YOUR CODE HERE
 )
 
-select * from hub_customer
+select
+    -- TODO: Select all columns from the hub_customer CTE
+    -- YOUR CODE HERE
+from hub_customer

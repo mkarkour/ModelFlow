@@ -13,4 +13,20 @@
    4. Include all product attributes needed by the SCD2 dimension
 */
 
--- YOUR CODE HERE
+with source as (
+    -- TODO: Select all columns from {{ ref('raw_products') }}
+    -- YOUR CODE HERE
+),
+
+staged as (
+    -- TODO: Cast prod_id, price, cost, and is_active to their proper types
+    -- TODO: Trim whitespace from product_name, category, and subcategory
+    -- TODO: Standardize SKU by trimming and converting to UPPER case
+    -- TODO: Include the {{ load_date() }} macro as _loaded_at
+    -- YOUR CODE HERE
+)
+
+select 
+    -- TODO: Select all columns from the staged CTE
+    -- YOUR CODE HERE
+from staged

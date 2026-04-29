@@ -14,13 +14,15 @@
    5. A link table only contains hash keys and relationship business keys, strictly no descriptive attributes.
 */
 
--- Your code here:
-with source_data as (
-    -- select ...
+with source as (
+    -- TODO: Select all columns from {{ ref('bronze_dv_stg_orders') }}
+    -- YOUR CODE HERE
 ),
 
 link_order as (
-    -- select ...
+    -- TODO: Select the link hash key, component hash keys, and the business key
+    -- TODO: Group by all keys and take the min(load_date)
+    -- YOUR CODE HERE
 )
 
 select * from link_order

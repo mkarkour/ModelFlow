@@ -2,7 +2,7 @@
 -- Data Vault Silver: Sat Product Details
 -- Purpose : Descriptive attributes for Products with change detection.
 -- =============================================================================
-with source_data as (
+with source as (
     select * from {{ ref('bronze_dv_stg_products') }}
 ),
 
@@ -20,7 +20,7 @@ latest_records as (
         load_date,
         record_source,
         row_number() over (partition by hk_product order by load_date desc) as row_num
-    from source_data
+    from source
 )
 
 select
